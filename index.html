@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kannada Quest 🦉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Kannada:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#58cc02;--green-dark:#58a700;--green-light:#d7ffb8;--green-bg:#ecffd9;--blue:#1cb0f6;--blue-dark:#1899d6;--blue-light:#ddf4ff;--orange:#ff9600;--orange-dark:#e08600;--red:#ff4b4b;--red-dark:#e84545;--red-light:#ffe5e5;--yellow:#ffc800;--purple:#ce82ff;--purple-dark:#a560cc;--pink:#ff86d0;--text:#3c3c3c;--text-light:#777;--gray:#e5e5e5;--gray-2:#f7f7f7}
+html,body{height:100%}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#fffbe6,#fff);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+.kn-font,.example-sentence .kn,.fc-kannada,.quiz-text,.word{font-family:'Noto Sans Kannada','Nunito',sans-serif}
+.app{max-width:920px;margin:0 auto;padding:14px 18px 100px}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:2px solid var(--gray);position:sticky;top:0;background:rgba(255,251,230,.95);backdrop-filter:blur(8px);z-index:50;margin-bottom:12px}
+.logo{font-size:26px;font-weight:900;color:var(--green-dark);display:flex;align-items:center;gap:8px;cursor:pointer}
+.logo .owl{font-size:32px}
+.stats{display:flex;gap:14px}
+.stat{display:flex;align-items:center;gap:4px;font-weight:800;font-size:17px;color:var(--text)}
+.stat .icon{font-size:22px}
+.stat.streak{color:var(--orange)}
+.stat.xp{color:var(--yellow)}
+.stat.gems{color:var(--blue)}
+.welcome{text-align:center;padding:24px 16px;background:linear-gradient(135deg,var(--green-light),#fff);border-radius:24px;margin-bottom:22px;border:2px solid var(--green-light)}
+.welcome h1{font-size:28px;color:var(--green-dark);margin-bottom:6px;font-weight:900}
+.welcome p{color:var(--text);font-size:15px}
+.welcome .small{font-size:13px;color:var(--text-light);margin-top:6px}
+.section-header{color:#fff;border-radius:18px;padding:16px 22px;margin:22px 0 14px;display:flex;justify-content:space-between;align-items:center}
+.section-header.green{background:var(--green);box-shadow:0 4px 0 var(--green-dark)}
+.section-header.blue{background:var(--blue);box-shadow:0 4px 0 var(--blue-dark)}
+.section-header.orange{background:var(--orange);box-shadow:0 4px 0 var(--orange-dark)}
+.section-header.purple{background:var(--purple);box-shadow:0 4px 0 var(--purple-dark)}
+.section-header.red{background:var(--red);box-shadow:0 4px 0 var(--red-dark)}
+.section-header.pink{background:var(--pink);box-shadow:0 4px 0 #d65fa9}
+.section-name{font-weight:900;font-size:18px}
+.section-sub{opacity:.92;font-size:13px;margin-top:2px}
+.units-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:14px;padding:6px 0 12px}
+.unit-card{background:#fff;border:2px solid var(--gray);border-radius:18px;padding:16px 12px;text-align:center;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 0 var(--gray);position:relative}
+.unit-card:hover{transform:translateY(-3px);box-shadow:0 7px 0 var(--gray)}
+.unit-card:active{transform:translateY(1px);box-shadow:0 2px 0 var(--gray)}
+.unit-card .emoji{font-size:36px;line-height:1}
+.unit-card .name{font-weight:800;font-size:13px;margin-top:8px;line-height:1.25}
+.unit-card.completed{background:var(--green-bg);border-color:var(--green);box-shadow:0 4px 0 var(--green-dark)}
+.unit-card .badge{position:absolute;top:6px;right:6px;font-size:13px;background:var(--yellow);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.screen{animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.lesson-top{display:flex;align-items:center;gap:14px;padding:8px 0 14px}
+.back-btn{background:#fff;border:2px solid var(--gray);border-radius:50%;width:44px;height:44px;cursor:pointer;flex-shrink:0;font-size:22px;font-weight:900;color:var(--text-light);box-shadow:0 3px 0 var(--gray)}
+.lesson-title{font-size:22px;font-weight:900;line-height:1.1}
+.lesson-sub{font-size:14px;color:var(--text-light);margin-top:2px}
+.btn{background:var(--green);color:#fff;border:none;border-radius:14px;padding:14px 22px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 0 var(--green-dark);letter-spacing:.8px;text-transform:uppercase;font-family:inherit;transition:transform .1s}
+.btn:hover{transform:translateY(-1px)}
+.btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
+.btn.blue{background:var(--blue);box-shadow:0 4px 0 var(--blue-dark)}
+.btn.blue:active:not(:disabled){box-shadow:0 2px 0 var(--blue-dark)}
+.btn.orange{background:var(--orange);box-shadow:0 4px 0 var(--orange-dark)}
+.btn.orange:active:not(:disabled){box-shadow:0 2px 0 var(--orange-dark)}
+.btn.outline{background:#fff;color:var(--text);border:2px solid var(--gray);box-shadow:0 4px 0 var(--gray)}
+.btn.outline:active:not(:disabled){box-shadow:0 2px 0 var(--gray)}
+.btn.red{background:var(--red);box-shadow:0 4px 0 var(--red-dark)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn-row .btn{flex:1;min-width:140px}
+.lesson-info{background:linear-gradient(135deg,#fffbeb,#fff);border-left:5px solid var(--yellow);padding:16px 18px;border-radius:12px;margin:10px 0 16px;line-height:1.6;font-size:15px}
+.lesson-info h3{margin-bottom:6px;color:var(--orange-dark);font-size:16px;font-weight:800}
+.lesson-info code{background:var(--gray-2);padding:1px 6px;border-radius:4px;font-family:Courier,monospace;color:var(--purple-dark)}
+.lesson-info ul{margin:6px 0 6px 22px}
+.flashcard{background:#fff;border:2.5px solid var(--gray);border-radius:24px;padding:36px 24px;min-height:320px;display:flex;flex-direction:column;justify-content:center;align-items:center;margin:14px 0;box-shadow:0 5px 0 var(--gray);cursor:pointer;user-select:none}
+.flashcard .label{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);font-weight:800;margin-bottom:14px}
+.fc-kannada{font-size:54px;font-weight:700;color:var(--text);margin-bottom:14px;text-align:center;line-height:1.2}
+.fc-trans{font-size:22px;color:var(--blue-dark);font-style:italic;margin-bottom:14px;font-weight:600}
+.fc-english{font-size:26px;font-weight:700;color:var(--green-dark);text-align:center}
+.fc-hint{font-size:13px;color:var(--text-light);margin-top:24px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.fc-nav{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
+.fc-counter{text-align:center;padding:8px;font-weight:700;color:var(--text-light);font-size:14px}
+.progress-bar{background:var(--gray);height:14px;border-radius:8px;overflow:hidden;margin:4px 0 16px}
+.progress-fill{background:var(--green);height:100%;transition:width .35s ease;position:relative}
+.progress-fill::after{content:'';position:absolute;top:2px;left:4px;right:4px;height:4px;background:rgba(255,255,255,.4);border-radius:4px}
+.quiz-prompt{font-size:21px;font-weight:900;margin-bottom:18px;line-height:1.3}
+.quiz-prompt .small{display:block;font-size:13px;color:var(--text-light);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.quiz-text{font-size:36px;font-weight:700;padding:22px;background:var(--green-bg);border-radius:16px;text-align:center;margin:10px 0 18px;border:2px solid var(--green-light)}
+.quiz-text-small{font-size:22px;padding:16px}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.option{background:#fff;border:2px solid var(--gray);border-radius:14px;padding:16px 12px;cursor:pointer;font-size:16px;font-weight:700;text-align:center;box-shadow:0 3px 0 var(--gray);min-height:60px;display:flex;align-items:center;justify-content:center;font-family:inherit;color:var(--text)}
+.option:hover{background:var(--blue-light);border-color:var(--blue)}
+.option.selected{background:var(--blue-light);border-color:var(--blue);color:var(--blue-dark);box-shadow:0 3px 0 var(--blue-dark)}
+.option.correct{background:var(--green-bg);border-color:var(--green);color:var(--green-dark);box-shadow:0 3px 0 var(--green-dark)}
+.option.wrong{background:var(--red-light);border-color:var(--red);color:var(--red-dark);box-shadow:0 3px 0 var(--red-dark)}
+.feedback{position:fixed;bottom:0;left:0;right:0;padding:18px 22px 24px;box-shadow:0 -6px 16px rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center;z-index:100;animation:slideUp .25s;flex-wrap:wrap;gap:12px}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.feedback.correct{background:var(--green-bg);border-top:3px solid var(--green)}
+.feedback.wrong{background:var(--red-light);border-top:3px solid var(--red)}
+.feedback-content{flex:1;min-width:180px}
+.feedback-title{font-weight:900;font-size:19px;color:var(--green-dark);display:flex;align-items:center;gap:8px}
+.feedback.wrong .feedback-title{color:var(--red-dark)}
+.feedback-detail{font-size:14px;color:var(--text);margin-top:4px}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 16px}
+.match-col{display:flex;flex-direction:column;gap:9px}
+.match-item{background:#fff;border:2px solid var(--gray);border-radius:12px;padding:14px 10px;cursor:pointer;font-size:16px;font-weight:700;text-align:center;box-shadow:0 3px 0 var(--gray);font-family:inherit;color:var(--text)}
+.match-item:hover{background:var(--blue-light)}
+.match-item.selected{background:var(--blue-light);border-color:var(--blue);box-shadow:0 3px 0 var(--blue-dark)}
+.match-item.matched{background:var(--green-bg);border-color:var(--green);box-shadow:0 3px 0 var(--green-dark);opacity:.5;pointer-events:none}
+.match-item.wrong{background:var(--red-light);border-color:var(--red);animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.word-target{display:flex;flex-wrap:wrap;gap:8px;min-height:80px;padding:14px;background:var(--gray-2);border-radius:14px;margin:12px 0;border-bottom:3px solid var(--gray)}
+.word-bank{display:flex;flex-wrap:wrap;gap:8px;min-height:70px;padding:12px;margin-bottom:16px}
+.word{background:#fff;border:2px solid var(--gray);border-radius:10px;padding:10px 14px;cursor:pointer;font-size:17px;font-weight:700;box-shadow:0 3px 0 var(--gray)}
+.word:hover{background:var(--blue-light)}
+.word.used{opacity:.25;pointer-events:none}
+.text-input{width:100%;padding:14px;border:2.5px solid var(--gray);border-radius:14px;font-size:18px;font-family:inherit;font-weight:600;background:#fff}
+.text-input:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px var(--blue-light)}
+.complete{text-align:center;padding:30px 14px;background:linear-gradient(135deg,var(--green-bg),#fff);border-radius:24px;border:2px solid var(--green-light)}
+.complete-emoji{font-size:80px;animation:bounce .7s}
+@keyframes bounce{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.complete-title{font-size:26px;font-weight:900;color:var(--green-dark);margin:12px 0 22px}
+.complete-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0;max-width:480px;margin-left:auto;margin-right:auto}
+.cstat{background:#fff;padding:16px 8px;border-radius:14px;border:2px solid var(--green-light);box-shadow:0 3px 0 var(--green-light)}
+.cstat-icon{font-size:26px}
+.cstat-num{font-size:24px;font-weight:900;color:var(--green-dark);margin:4px 0 2px}
+.cstat-label{font-size:12px;color:var(--text-light);font-weight:700;text-transform:uppercase}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--gray);margin:14px 0 16px;overflow-x:auto}
+.tab{padding:11px 18px;cursor:pointer;font-weight:800;font-size:13px;color:var(--text-light);border-bottom:4px solid transparent;margin-bottom:-2px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:.4px}
+.tab.active{color:var(--green-dark);border-color:var(--green)}
+.example-sentence{background:var(--blue-light);padding:12px 14px;border-radius:14px;margin:8px 0;line-height:1.5;border-left:4px solid var(--blue)}
+.example-sentence .kn{font-size:20px;font-weight:700;color:var(--text);display:block;margin-bottom:4px}
+.example-sentence .tr{color:var(--blue-dark);font-style:italic;font-weight:600;font-size:14px}
+.example-sentence .en{color:var(--text-light);margin-top:4px;font-weight:600;font-size:14px}
+.tense-table{width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;font-size:14px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 0 var(--gray)}
+.tense-table th{background:var(--purple);color:#fff;padding:10px;text-align:left;font-weight:800}
+.tense-table td{padding:10px;border-bottom:1px solid var(--gray)}
+.tense-table td.kn{font-family:'Noto Sans Kannada',sans-serif;font-weight:700;font-size:16px}
+.tense-table tr:last-child td{border-bottom:none}
+@media (max-width:600px){.app{padding:10px 12px 100px}.fc-kannada{font-size:38px}.fc-english{font-size:20px}.quiz-text{font-size:26px;padding:16px}.options{grid-template-columns:1fr}.complete-stats{grid-template-columns:1fr}.lesson-title{font-size:19px}.welcome h1{font-size:22px}.btn{font-size:12px;padding:12px 16px}}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+/* CURRICULUM */
+const CURRICULUM = [
+{id:'foundation',title:'Section 1 · Foundation',color:'green',sub:'Greetings, basics & first words',units:[
+{id:'greetings',name:'Greetings',emoji:'👋',type:'vocab',cards:[
+{kn:'ನಮಸ್ಕಾರ',tr:'Namaskara',en:'Hello / Greetings'},
+{kn:'ಶುಭೋದಯ',tr:'Shubhodaya',en:'Good morning'},
+{kn:'ಶುಭ ಸಂಜೆ',tr:'Shubha sanje',en:'Good evening'},
+{kn:'ಶುಭ ರಾತ್ರಿ',tr:'Shubha raatri',en:'Good night'},
+{kn:'ಹೇಗಿದ್ದೀರಿ?',tr:'Hegiddiri?',en:'How are you?'},
+{kn:'ಚೆನ್ನಾಗಿದ್ದೇನೆ',tr:'Chennagiddene',en:'I am fine'},
+{kn:'ಧನ್ಯವಾದಗಳು',tr:'Dhanyavaadagalu',en:'Thank you'},
+{kn:'ಪರವಾಗಿಲ್ಲ',tr:'Paravaagilla',en:"You're welcome"},
+{kn:'ಕ್ಷಮಿಸಿ',tr:'Kshamisi',en:'Sorry / Excuse me'},
+{kn:'ದಯವಿಟ್ಟು',tr:'Dayavittu',en:'Please'},
+{kn:'ಹೌದು',tr:'Houdu',en:'Yes'},
+{kn:'ಇಲ್ಲ',tr:'Illa',en:'No'},
+{kn:'ಸರಿ',tr:'Sari',en:'OK / Right'},
+{kn:'ವಿದಾಯ',tr:'Vidaaya',en:'Goodbye'}],
+sentences:[
+{kn:'ನಮಸ್ಕಾರ, ಹೇಗಿದ್ದೀರಿ?',tr:'Namaskara, hegiddiri?',en:'Hello, how are you?'},
+{kn:'ನಾನು ಚೆನ್ನಾಗಿದ್ದೇನೆ',tr:'Naanu chennagiddene',en:'I am fine'},
+{kn:'ನಿಮಗೆ ಶುಭೋದಯ',tr:'Nimage shubhodaya',en:'Good morning to you'}]},
+{id:'intro',name:'Introducing Yourself',emoji:'🙋',type:'vocab',cards:[
+{kn:'ನನ್ನ ಹೆಸರು',tr:'Nanna hesaru',en:'My name'},
+{kn:'ನಿಮ್ಮ ಹೆಸರು',tr:'Nimma hesaru',en:'Your name'},
+{kn:'ನಿಮ್ಮ ಹೆಸರು ಏನು?',tr:'Nimma hesaru enu?',en:'What is your name?'},
+{kn:'ಭಾರತ',tr:'Bhaarata',en:'India'},
+{kn:'ಕರ್ನಾಟಕ',tr:'Karnataka',en:'Karnataka'},
+{kn:'ದೇಶ',tr:'Desha',en:'Country'},
+{kn:'ಊರು',tr:'Ooru',en:'Town / Village'},
+{kn:'ಭಾಷೆ',tr:'Bhaashe',en:'Language'},
+{kn:'ಕನ್ನಡ',tr:'Kannada',en:'Kannada'},
+{kn:'ಸ್ನೇಹಿತ',tr:'Snehita',en:'Friend (m)'},
+{kn:'ಸ್ನೇಹಿತೆ',tr:'Snehite',en:'Friend (f)'}],
+sentences:[
+{kn:'ನನ್ನ ಹೆಸರು ರಾಮ',tr:'Nanna hesaru Rama',en:'My name is Rama'},
+{kn:'ನಾನು ಭಾರತೀಯ',tr:'Naanu bhaarateeya',en:'I am Indian'},
+{kn:'ನಾನು ಕನ್ನಡ ಮಾತನಾಡುತ್ತೇನೆ',tr:'Naanu kannada maatanaaduttene',en:'I speak Kannada'}]},
+{id:'pronouns',name:'Pronouns',emoji:'👤',type:'vocab',cards:[
+{kn:'ನಾನು',tr:'Naanu',en:'I'},
+{kn:'ನೀನು',tr:'Neenu',en:'You (informal)'},
+{kn:'ನೀವು',tr:'Neevu',en:'You (formal/plural)'},
+{kn:'ಅವನು',tr:'Avanu',en:'He'},
+{kn:'ಅವಳು',tr:'Avalu',en:'She'},
+{kn:'ಅದು',tr:'Adu',en:'It / That'},
+{kn:'ಇದು',tr:'Idu',en:'This'},
+{kn:'ನಾವು',tr:'Naavu',en:'We'},
+{kn:'ಅವರು',tr:'Avaru',en:'They / He(resp.)'},
+{kn:'ಇವರು',tr:'Ivaru',en:'These people'},
+{kn:'ಯಾರು',tr:'Yaaru',en:'Who'},
+{kn:'ಯಾವುದು',tr:'Yaavudu',en:'Which one'}],
+sentences:[
+{kn:'ನಾನು ವಿದ್ಯಾರ್ಥಿ',tr:'Naanu vidyaarthi',en:'I am a student'},
+{kn:'ಅವನು ನನ್ನ ಸ್ನೇಹಿತ',tr:'Avanu nanna snehita',en:'He is my friend'},
+{kn:'ಇದು ಪುಸ್ತಕ',tr:'Idu pustaka',en:'This is a book'}]},
+{id:'yesno',name:'Yes/No Basics',emoji:'✅',type:'vocab',cards:[
+{kn:'ಹೌದು',tr:'Houdu',en:'Yes'},
+{kn:'ಇಲ್ಲ',tr:'Illa',en:'No'},
+{kn:'ಬಹುಶಃ',tr:'Bahushah',en:'Maybe'},
+{kn:'ಗೊತ್ತಿಲ್ಲ',tr:'Gottilla',en:"I don't know"},
+{kn:'ಗೊತ್ತು',tr:'Gottu',en:'I know'},
+{kn:'ಸ್ವಲ್ಪ',tr:'Svalpa',en:'A little'},
+{kn:'ಬಹಳ',tr:'Bahala',en:'Very / Much'},
+{kn:'ಒಳ್ಳೆಯದು',tr:'Olleyadu',en:'Good thing'},
+{kn:'ಕೆಟ್ಟದು',tr:'Kettadu',en:'Bad'},
+{kn:'ಬೇಡ',tr:'Beda',en:"Don't want"},
+{kn:'ಬೇಕು',tr:'Beku',en:'Want / Need'}],
+sentences:[
+{kn:'ನನಗೆ ಬೇಕು',tr:'Nanage beku',en:'I want / need'},
+{kn:'ನನಗೆ ಬೇಡ',tr:'Nanage beda',en:"I don't want"}]},
+{id:'qwords',name:'Question Words',emoji:'❓',type:'vocab',cards:[
+{kn:'ಏನು',tr:'Enu',en:'What'},
+{kn:'ಯಾರು',tr:'Yaaru',en:'Who'},
+{kn:'ಎಲ್ಲಿ',tr:'Elli',en:'Where'},
+{kn:'ಯಾವಾಗ',tr:'Yaavaaga',en:'When'},
+{kn:'ಏಕೆ',tr:'Eke',en:'Why'},
+{kn:'ಹೇಗೆ',tr:'Hege',en:'How'},
+{kn:'ಎಷ್ಟು',tr:'Eshtu',en:'How much/many'},
+{kn:'ಯಾವ',tr:'Yaava',en:'Which'}],
+sentences:[
+{kn:'ಇದು ಏನು?',tr:'Idu enu?',en:'What is this?'},
+{kn:'ಎಲ್ಲಿಗೆ ಹೋಗುತ್ತೀರಿ?',tr:'Ellige hoogutteeri?',en:'Where are you going?'},
+{kn:'ಇದು ಎಷ್ಟು?',tr:'Idu eshtu?',en:'How much is this?'},
+{kn:'ನೀವು ಯಾರು?',tr:'Neevu yaaru?',en:'Who are you?'}]}]},
+
+{id:'numbers',title:'Section 2 · Numbers & Colors',color:'blue',sub:'Count, describe and quantify',units:[
+{id:'n1-10',name:'Numbers 1–10',emoji:'🔢',type:'vocab',cards:[
+{kn:'ಸೊನ್ನೆ',tr:'Sonne',en:'0'},
+{kn:'ಒಂದು',tr:'Ondu',en:'1'},
+{kn:'ಎರಡು',tr:'Eradu',en:'2'},
+{kn:'ಮೂರು',tr:'Mooru',en:'3'},
+{kn:'ನಾಲ್ಕು',tr:'Nalku',en:'4'},
+{kn:'ಐದು',tr:'Aidu',en:'5'},
+{kn:'ಆರು',tr:'Aaru',en:'6'},
+{kn:'ಏಳು',tr:'Elu',en:'7'},
+{kn:'ಎಂಟು',tr:'Entu',en:'8'},
+{kn:'ಒಂಬತ್ತು',tr:'Ombattu',en:'9'},
+{kn:'ಹತ್ತು',tr:'Hattu',en:'10'}],
+sentences:[
+{kn:'ನನ್ನ ಬಳಿ ಎರಡು ಪುಸ್ತಕಗಳಿವೆ',tr:'Nanna bali eradu pustakagalive',en:'I have two books'},
+{kn:'ಐದು ಬಾಳೆಹಣ್ಣುಗಳು',tr:'Aidu balehannugalu',en:'Five bananas'}]},
+{id:'n11-20',name:'Numbers 11–20',emoji:'📏',type:'vocab',cards:[
+{kn:'ಹನ್ನೊಂದು',tr:'Hannondu',en:'11'},
+{kn:'ಹನ್ನೆರಡು',tr:'Hanneradu',en:'12'},
+{kn:'ಹದಿಮೂರು',tr:'Hadimooru',en:'13'},
+{kn:'ಹದಿನಾಲ್ಕು',tr:'Hadinalku',en:'14'},
+{kn:'ಹದಿನೈದು',tr:'Hadinaidu',en:'15'},
+{kn:'ಹದಿನಾರು',tr:'Hadinaaru',en:'16'},
+{kn:'ಹದಿನೇಳು',tr:'Hadinelu',en:'17'},
+{kn:'ಹದಿನೆಂಟು',tr:'Hadinentu',en:'18'},
+{kn:'ಹತ್ತೊಂಬತ್ತು',tr:'Hattombattu',en:'19'},
+{kn:'ಇಪ್ಪತ್ತು',tr:'Ippattu',en:'20'}],
+sentences:[{kn:'ನನಗೆ ಹದಿನೈದು ವರ್ಷ',tr:'Nanage hadinaidu varsha',en:'I am fifteen years old'}]},
+{id:'ntens',name:'Tens & Hundreds',emoji:'💯',type:'vocab',cards:[
+{kn:'ಇಪ್ಪತ್ತು',tr:'Ippattu',en:'20'},
+{kn:'ಮೂವತ್ತು',tr:'Moovattu',en:'30'},
+{kn:'ನಲವತ್ತು',tr:'Nalavattu',en:'40'},
+{kn:'ಐವತ್ತು',tr:'Aivattu',en:'50'},
+{kn:'ಅರವತ್ತು',tr:'Aravattu',en:'60'},
+{kn:'ಎಪ್ಪತ್ತು',tr:'Eppattu',en:'70'},
+{kn:'ಎಂಬತ್ತು',tr:'Embattu',en:'80'},
+{kn:'ತೊಂಬತ್ತು',tr:'Tombattu',en:'90'},
+{kn:'ನೂರು',tr:'Nooru',en:'100'},
+{kn:'ಸಾವಿರ',tr:'Saavira',en:'1000'},
+{kn:'ಲಕ್ಷ',tr:'Laksha',en:'100,000 (lakh)'},
+{kn:'ಕೋಟಿ',tr:'Koti',en:'10 million (crore)'}],
+sentences:[{kn:'ಇದರ ಬೆಲೆ ನೂರು ರೂಪಾಯಿ',tr:'Idara bele nooru rupaayi',en:'Its price is one hundred rupees'}]},
+{id:'colors',name:'Colors',emoji:'🎨',type:'vocab',cards:[
+{kn:'ಬಣ್ಣ',tr:'Banna',en:'Color'},
+{kn:'ಕೆಂಪು',tr:'Kempu',en:'Red'},
+{kn:'ನೀಲಿ',tr:'Neeli',en:'Blue'},
+{kn:'ಹಸಿರು',tr:'Hasiru',en:'Green'},
+{kn:'ಹಳದಿ',tr:'Haladi',en:'Yellow'},
+{kn:'ಕಪ್ಪು',tr:'Kappu',en:'Black'},
+{kn:'ಬಿಳಿ',tr:'Bili',en:'White'},
+{kn:'ಕಿತ್ತಳೆ',tr:'Kittale',en:'Orange'},
+{kn:'ಗುಲಾಬಿ',tr:'Gulaabi',en:'Pink'},
+{kn:'ನೇರಳೆ',tr:'Nerale',en:'Purple'},
+{kn:'ಕಂದು',tr:'Kandu',en:'Brown'},
+{kn:'ಬೂದು',tr:'Boodu',en:'Grey'}],
+sentences:[
+{kn:'ಆಕಾಶ ನೀಲಿಯಾಗಿದೆ',tr:'Aakaasha neeliyaagide',en:'The sky is blue'},
+{kn:'ಈ ಹೂವು ಕೆಂಪಾಗಿದೆ',tr:'Ee hoovu kempaagide',en:'This flower is red'}]},
+{id:'shapes',name:'Shapes & Sizes',emoji:'🔺',type:'vocab',cards:[
+{kn:'ವೃತ್ತ',tr:'Vrtta',en:'Circle'},
+{kn:'ಚೌಕ',tr:'Chouka',en:'Square'},
+{kn:'ತ್ರಿಕೋನ',tr:'Trikona',en:'Triangle'},
+{kn:'ಆಯತ',tr:'Aayata',en:'Rectangle'},
+{kn:'ದೊಡ್ಡ',tr:'Dodda',en:'Big'},
+{kn:'ಸಣ್ಣ',tr:'Sanna',en:'Small'},
+{kn:'ಉದ್ದ',tr:'Udda',en:'Long / Tall'},
+{kn:'ಗಿಡ್ಡ',tr:'Gidda',en:'Short'},
+{kn:'ದಪ್ಪ',tr:'Dappa',en:'Thick / Fat'},
+{kn:'ತೆಳ್ಳ',tr:'Tella',en:'Thin'},
+{kn:'ಎತ್ತರ',tr:'Ettara',en:'High'},
+{kn:'ಆಳ',tr:'Aala',en:'Deep'}]}]},
+
+{id:'people',title:'Section 3 · People & Family',color:'orange',sub:'Family, relatives & describing people',units:[
+{id:'family',name:'Family',emoji:'👨‍👩‍👧',type:'vocab',cards:[
+{kn:'ಕುಟುಂಬ',tr:'Kutumba',en:'Family'},
+{kn:'ಅಪ್ಪ',tr:'Appa',en:'Father'},
+{kn:'ಅಮ್ಮ',tr:'Amma',en:'Mother'},
+{kn:'ಅಣ್ಣ',tr:'Anna',en:'Elder brother'},
+{kn:'ತಮ್ಮ',tr:'Tamma',en:'Younger brother'},
+{kn:'ಅಕ್ಕ',tr:'Akka',en:'Elder sister'},
+{kn:'ತಂಗಿ',tr:'Tangi',en:'Younger sister'},
+{kn:'ಮಗ',tr:'Maga',en:'Son'},
+{kn:'ಮಗಳು',tr:'Magalu',en:'Daughter'},
+{kn:'ಅಜ್ಜ',tr:'Ajja',en:'Grandfather'},
+{kn:'ಅಜ್ಜಿ',tr:'Ajji',en:'Grandmother'},
+{kn:'ಗಂಡ',tr:'Ganda',en:'Husband'},
+{kn:'ಹೆಂಡತಿ',tr:'Hendati',en:'Wife'},
+{kn:'ಮಗು',tr:'Magu',en:'Child / Baby'}],
+sentences:[
+{kn:'ಇದು ನನ್ನ ಕುಟುಂಬ',tr:'Idu nanna kutumba',en:'This is my family'},
+{kn:'ನಮ್ಮ ಅಮ್ಮ ಶಿಕ್ಷಕಿ',tr:'Namma amma shikshaki',en:'Our mother is a teacher'},
+{kn:'ನನಗೆ ಒಬ್ಬ ಅಣ್ಣ ಇದ್ದಾನೆ',tr:'Nanage obba anna iddane',en:'I have one elder brother'}]},
+{id:'relatives',name:'Relatives',emoji:'👪',type:'vocab',cards:[
+{kn:'ಚಿಕ್ಕಪ್ಪ',tr:'Chikkappa',en:"Father's younger brother"},
+{kn:'ದೊಡ್ಡಪ್ಪ',tr:'Doddappa',en:"Father's elder brother"},
+{kn:'ಚಿಕ್ಕಮ್ಮ',tr:'Chikkamma',en:"Mother's younger sister"},
+{kn:'ದೊಡ್ಡಮ್ಮ',tr:'Doddamma',en:"Mother's elder sister"},
+{kn:'ಮಾವ',tr:'Maava',en:'Maternal uncle / Father-in-law'},
+{kn:'ಅತ್ತೆ',tr:'Atte',en:'Paternal aunt / Mother-in-law'},
+{kn:'ಸೊಸೆ',tr:'Sose',en:'Daughter-in-law'},
+{kn:'ಅಳಿಯ',tr:'Aliya',en:'Son-in-law / Nephew'},
+{kn:'ಸೋದರಳಿಯ',tr:'Sodaraliya',en:"Nephew (sister's son)"},
+{kn:'ಮೊಮ್ಮಗ',tr:'Mommaga',en:'Grandson'},
+{kn:'ಮೊಮ್ಮಗಳು',tr:'Mommagalu',en:'Granddaughter'},
+{kn:'ಬಂಧು',tr:'Bandhu',en:'Relative'}],
+sentences:[{kn:'ನನ್ನ ಚಿಕ್ಕಪ್ಪ ಬೆಂಗಳೂರಿನಲ್ಲಿದ್ದಾರೆ',tr:'Nanna chikkappa Bengaluurinalliddare',en:'My uncle is in Bangalore'}]},
+{id:'body',name:'Body Parts',emoji:'🧍',type:'vocab',cards:[
+{kn:'ತಲೆ',tr:'Tale',en:'Head'},
+{kn:'ಮುಖ',tr:'Mukha',en:'Face'},
+{kn:'ಕಣ್ಣು',tr:'Kannu',en:'Eye'},
+{kn:'ಮೂಗು',tr:'Moogu',en:'Nose'},
+{kn:'ಬಾಯಿ',tr:'Baayi',en:'Mouth'},
+{kn:'ಕಿವಿ',tr:'Kivi',en:'Ear'},
+{kn:'ಕೈ',tr:'Kai',en:'Hand'},
+{kn:'ಕಾಲು',tr:'Kaalu',en:'Leg / Foot'},
+{kn:'ಕೂದಲು',tr:'Koodalu',en:'Hair'},
+{kn:'ಹಲ್ಲು',tr:'Hallu',en:'Tooth'},
+{kn:'ನಾಲಿಗೆ',tr:'Naalige',en:'Tongue'},
+{kn:'ಬೆನ್ನು',tr:'Bennu',en:'Back'},
+{kn:'ಹೊಟ್ಟೆ',tr:'Hotte',en:'Stomach'},
+{kn:'ಬೆರಳು',tr:'Beralu',en:'Finger'},
+{kn:'ಮೊಣಕಾಲು',tr:'Monakaalu',en:'Knee'},
+{kn:'ಭುಜ',tr:'Bhuja',en:'Shoulder'},
+{kn:'ಎದೆ',tr:'Ede',en:'Chest'},
+{kn:'ಹೃದಯ',tr:'Hrdaya',en:'Heart'}],
+sentences:[{kn:'ನನ್ನ ತಲೆ ನೋಯುತ್ತಿದೆ',tr:'Nanna tale noyuttide',en:'My head is aching'}]},
+{id:'desc',name:'Describing People',emoji:'🪞',type:'vocab',cards:[
+{kn:'ಸುಂದರ',tr:'Sundara',en:'Beautiful'},
+{kn:'ಎತ್ತರ',tr:'Ettara',en:'Tall'},
+{kn:'ಗಿಡ್ಡ',tr:'Gidda',en:'Short'},
+{kn:'ಯುವಕ',tr:'Yuvaka',en:'Young man'},
+{kn:'ಯುವತಿ',tr:'Yuvati',en:'Young woman'},
+{kn:'ವೃದ್ಧ',tr:'Vrddha',en:'Old (person)'},
+{kn:'ಬುದ್ಧಿವಂತ',tr:'Buddhivanta',en:'Intelligent'},
+{kn:'ಮೂರ್ಖ',tr:'Moorkha',en:'Foolish'},
+{kn:'ಧೈರ್ಯಶಾಲಿ',tr:'Dhairyashali',en:'Brave'},
+{kn:'ಸೋಮಾರಿ',tr:'Somari',en:'Lazy'},
+{kn:'ಶ್ರಮಜೀವಿ',tr:'Shramajeevi',en:'Hardworking'},
+{kn:'ಪ್ರೀತಿಯ',tr:'Preetiya',en:'Loving / Dear'}],
+sentences:[
+{kn:'ಅವಳು ಸುಂದರವಾಗಿದ್ದಾಳೆ',tr:'Avalu sundaravaagiddale',en:'She is beautiful'},
+{kn:'ಅವನು ಬಹಳ ಬುದ್ಧಿವಂತ',tr:'Avanu bahala buddhivanta',en:'He is very intelligent'}]},
+{id:'emotions',name:'Emotions',emoji:'😊',type:'vocab',cards:[
+{kn:'ಸಂತೋಷ',tr:'Santosha',en:'Happiness'},
+{kn:'ದುಃಖ',tr:'Duhkha',en:'Sadness'},
+{kn:'ಕೋಪ',tr:'Kopa',en:'Anger'},
+{kn:'ಭಯ',tr:'Bhaya',en:'Fear'},
+{kn:'ಪ್ರೀತಿ',tr:'Preeti',en:'Love'},
+{kn:'ಆಶ್ಚರ್ಯ',tr:'Aashcharya',en:'Surprise'},
+{kn:'ನಗು',tr:'Nagu',en:'Laugh / Smile'},
+{kn:'ಅಳು',tr:'Alu',en:'Cry'},
+{kn:'ನೋವು',tr:'Novu',en:'Pain'},
+{kn:'ಸಮಾಧಾನ',tr:'Samaadhaana',en:'Calm / Peace'},
+{kn:'ಉತ್ಸಾಹ',tr:'Utsaaha',en:'Enthusiasm'}],
+sentences:[
+{kn:'ನಾನು ಸಂತೋಷವಾಗಿದ್ದೇನೆ',tr:'Naanu santoshavaagiddene',en:'I am happy'},
+{kn:'ಅವಳಿಗೆ ದುಃಖವಾಗಿದೆ',tr:'Avalige duhkhavaagide',en:'She is sad'}]}]},
+
+{id:'food',title:'Section 4 · Food & Drink',color:'red',sub:'Fruits, vegetables, meals & drinks',units:[
+{id:'fruits',name:'Fruits',emoji:'🍎',type:'vocab',cards:[
+{kn:'ಹಣ್ಣು',tr:'Hannu',en:'Fruit'},
+{kn:'ಸೇಬು',tr:'Sebu',en:'Apple'},
+{kn:'ಬಾಳೆಹಣ್ಣು',tr:'Balehannu',en:'Banana'},
+{kn:'ಮಾವಿನಹಣ್ಣು',tr:'Maavinahannu',en:'Mango'},
+{kn:'ಕಿತ್ತಳೆ',tr:'Kittale',en:'Orange'},
+{kn:'ದ್ರಾಕ್ಷಿ',tr:'Draakshi',en:'Grapes'},
+{kn:'ಪಪ್ಪಾಯಿ',tr:'Pappaayi',en:'Papaya'},
+{kn:'ಕಲ್ಲಂಗಡಿ',tr:'Kallangadi',en:'Watermelon'},
+{kn:'ಸಪೋಟ',tr:'Sapota',en:'Sapota'},
+{kn:'ಪೇರಲ',tr:'Perala',en:'Guava'},
+{kn:'ದಾಳಿಂಬೆ',tr:'Daalimbe',en:'Pomegranate'},
+{kn:'ಅನಾನಸ್',tr:'Anaanas',en:'Pineapple'},
+{kn:'ನಿಂಬೆಹಣ್ಣು',tr:'Nimbehannu',en:'Lemon'},
+{kn:'ತೆಂಗಿನಕಾಯಿ',tr:'Tenginakaayi',en:'Coconut'}],
+sentences:[
+{kn:'ನನಗೆ ಮಾವಿನಹಣ್ಣು ಇಷ್ಟ',tr:'Nanage maavinahannu ishta',en:'I like mango'},
+{kn:'ಬಾಳೆಹಣ್ಣು ಹಳದಿ',tr:'Balehannu haladi',en:'Banana is yellow'}]},
+{id:'veg',name:'Vegetables',emoji:'🥕',type:'vocab',cards:[
+{kn:'ತರಕಾರಿ',tr:'Tarakaari',en:'Vegetable'},
+{kn:'ಆಲೂಗಡ್ಡೆ',tr:'Aaloogadde',en:'Potato'},
+{kn:'ಈರುಳ್ಳಿ',tr:'Eerulli',en:'Onion'},
+{kn:'ಬೆಳ್ಳುಳ್ಳಿ',tr:'Bellulli',en:'Garlic'},
+{kn:'ಟೊಮೇಟೊ',tr:'Tomato',en:'Tomato'},
+{kn:'ಗಜ್ಜರಿ',tr:'Gajjari',en:'Carrot'},
+{kn:'ಮೂಲಂಗಿ',tr:'Moolangi',en:'Radish'},
+{kn:'ಬೆಂಡೆಕಾಯಿ',tr:'Bendekaayi',en:"Lady's finger"},
+{kn:'ಬದನೆಕಾಯಿ',tr:'Badanekaayi',en:'Brinjal'},
+{kn:'ಸೌತೆಕಾಯಿ',tr:'Soutekaayi',en:'Cucumber'},
+{kn:'ಎಲೆಕೋಸು',tr:'Elekosu',en:'Cabbage'},
+{kn:'ಹೂಕೋಸು',tr:'Hookosu',en:'Cauliflower'},
+{kn:'ಪಾಲಕ್',tr:'Paalak',en:'Spinach'},
+{kn:'ಮೆಣಸಿನಕಾಯಿ',tr:'Menasinakaayi',en:'Chili'},
+{kn:'ಶುಂಠಿ',tr:'Shunthi',en:'Ginger'}],
+sentences:[
+{kn:'ಒಂದು ಕಿಲೋ ಆಲೂಗಡ್ಡೆ ಕೊಡಿ',tr:'Ondu kilo aaloogadde kodi',en:'Give one kilo of potato'},
+{kn:'ತರಕಾರಿ ಎಷ್ಟು?',tr:'Tarakaari eshtu?',en:'How much for the vegetables?'}]},
+{id:'meals',name:'Meals & Food',emoji:'🍚',type:'vocab',cards:[
+{kn:'ಅನ್ನ',tr:'Anna',en:'Rice (cooked)'},
+{kn:'ಅಕ್ಕಿ',tr:'Akki',en:'Rice (raw)'},
+{kn:'ರೊಟ್ಟಿ',tr:'Rotti',en:'Roti / Flatbread'},
+{kn:'ಸಾರು',tr:'Saaru',en:'Rasam'},
+{kn:'ಸಾಂಬಾರ್',tr:'Saambaar',en:'Sambar'},
+{kn:'ಚಟ್ನಿ',tr:'Chatni',en:'Chutney'},
+{kn:'ಮೊಸರು',tr:'Mosaru',en:'Curd'},
+{kn:'ತುಪ್ಪ',tr:'Tuppa',en:'Ghee'},
+{kn:'ಎಣ್ಣೆ',tr:'Enne',en:'Oil'},
+{kn:'ಉಪ್ಪು',tr:'Uppu',en:'Salt'},
+{kn:'ಸಕ್ಕರೆ',tr:'Sakkare',en:'Sugar'},
+{kn:'ಬೆಲ್ಲ',tr:'Bella',en:'Jaggery'},
+{kn:'ಊಟ',tr:'Oota',en:'Meal / Lunch'},
+{kn:'ತಿಂಡಿ',tr:'Tindi',en:'Breakfast'},
+{kn:'ಸಿಹಿ',tr:'Sihi',en:'Sweet'},
+{kn:'ಖಾರ',tr:'Khaara',en:'Spicy'},
+{kn:'ಹುಳಿ',tr:'Huli',en:'Sour'}],
+sentences:[
+{kn:'ಊಟ ರುಚಿಯಾಗಿದೆ',tr:'Oota ruchiyaagide',en:'The food is tasty'},
+{kn:'ಸ್ವಲ್ಪ ಉಪ್ಪು ಕೊಡಿ',tr:'Svalpa uppu kodi',en:'Please give a little salt'}]},
+{id:'drinks',name:'Beverages',emoji:'☕',type:'vocab',cards:[
+{kn:'ನೀರು',tr:'Neeru',en:'Water'},
+{kn:'ಹಾಲು',tr:'Haalu',en:'Milk'},
+{kn:'ಚಹಾ',tr:'Chahaa',en:'Tea'},
+{kn:'ಕಾಫಿ',tr:'Kaaphi',en:'Coffee'},
+{kn:'ರಸ',tr:'Rasa',en:'Juice'},
+{kn:'ಮಜ್ಜಿಗೆ',tr:'Majjige',en:'Buttermilk'},
+{kn:'ಬಿಸಿ ನೀರು',tr:'Bisi neeru',en:'Hot water'},
+{kn:'ತಣ್ಣನೆ ನೀರು',tr:'Tannane neeru',en:'Cold water'}],
+sentences:[
+{kn:'ಒಂದು ಲೋಟ ನೀರು ಕೊಡಿ',tr:'Ondu lota neeru kodi',en:'Give a glass of water'},
+{kn:'ನನಗೆ ಕಾಫಿ ಬೇಕು',tr:'Nanage kaaphi beku',en:'I want coffee'}]},
+{id:'kitchen',name:'Kitchen',emoji:'🍳',type:'vocab',cards:[
+{kn:'ಅಡುಗೆ ಮನೆ',tr:'Aduge mane',en:'Kitchen'},
+{kn:'ಅಡುಗೆ',tr:'Aduge',en:'Cooking'},
+{kn:'ಪಾತ್ರೆ',tr:'Paatre',en:'Utensil'},
+{kn:'ತಟ್ಟೆ',tr:'Tatte',en:'Plate'},
+{kn:'ಲೋಟ',tr:'Lota',en:'Glass'},
+{kn:'ಚಮಚ',tr:'Chamacha',en:'Spoon'},
+{kn:'ಚಾಕು',tr:'Chaaku',en:'Knife'},
+{kn:'ಒಲೆ',tr:'Ole',en:'Stove'},
+{kn:'ಬೆಂಕಿ',tr:'Benki',en:'Fire'},
+{kn:'ಬೇಯಿಸು',tr:'Beyisu',en:'To boil/cook'},
+{kn:'ಹುರಿ',tr:'Huri',en:'To fry'},
+{kn:'ಕತ್ತರಿಸು',tr:'Kattarisu',en:'To cut'}]}]},
+
+{id:'home',title:'Section 5 · Home & Living',color:'purple',sub:'Home, furniture, clothing & daily life',units:[
+{id:'homerooms',name:'Home & Rooms',emoji:'🏠',type:'vocab',cards:[
+{kn:'ಮನೆ',tr:'Mane',en:'House'},
+{kn:'ಬಾಗಿಲು',tr:'Baagilu',en:'Door'},
+{kn:'ಕಿಟಕಿ',tr:'Kitaki',en:'Window'},
+{kn:'ಗೋಡೆ',tr:'Gode',en:'Wall'},
+{kn:'ಮಹಡಿ',tr:'Mahadi',en:'Floor / Storey'},
+{kn:'ಚಾವಣಿ',tr:'Chaavani',en:'Ceiling / Roof'},
+{kn:'ಕೋಣೆ',tr:'Kone',en:'Room'},
+{kn:'ಮಲಗುವ ಕೋಣೆ',tr:'Maluguva kone',en:'Bedroom'},
+{kn:'ಅಡುಗೆ ಮನೆ',tr:'Aduge mane',en:'Kitchen'},
+{kn:'ಸ್ನಾನದ ಕೋಣೆ',tr:'Snaanada kone',en:'Bathroom'},
+{kn:'ಊಟದ ಕೋಣೆ',tr:'Ootada kone',en:'Dining room'},
+{kn:'ಬಾಲ್ಕನಿ',tr:'Baalkani',en:'Balcony'},
+{kn:'ತೋಟ',tr:'Tota',en:'Garden'},
+{kn:'ಹಾಲ್',tr:'Haal',en:'Hall'}],
+sentences:[{kn:'ನಮ್ಮ ಮನೆ ದೊಡ್ಡದು',tr:'Namma mane doddadu',en:'Our house is big'}]},
+{id:'furniture',name:'Furniture',emoji:'🛋️',type:'vocab',cards:[
+{kn:'ಮಂಚ',tr:'Mancha',en:'Bed / Cot'},
+{kn:'ಕುರ್ಚಿ',tr:'Kurchi',en:'Chair'},
+{kn:'ಮೇಜು',tr:'Meju',en:'Table'},
+{kn:'ಸೋಫಾ',tr:'Sopha',en:'Sofa'},
+{kn:'ಕನ್ನಡಿ',tr:'Kannadi',en:'Mirror'},
+{kn:'ದೀಪ',tr:'Deepa',en:'Lamp / Light'},
+{kn:'ಫ್ಯಾನು',tr:'Phyaanu',en:'Fan'},
+{kn:'ಗಡಿಯಾರ',tr:'Gadiyaara',en:'Clock'},
+{kn:'ಚಿತ್ರ',tr:'Chitra',en:'Picture'},
+{kn:'ಪರದೆ',tr:'Parade',en:'Curtain'},
+{kn:'ದಿಂಬು',tr:'Dimbu',en:'Pillow'},
+{kn:'ಹೊದಿಕೆ',tr:'Hodike',en:'Blanket'},
+{kn:'ಬೀಗ',tr:'Beega',en:'Lock'},
+{kn:'ಕೀ',tr:'Kee',en:'Key'},
+{kn:'ಫ್ರಿಡ್ಜ್',tr:'Phridj',en:'Fridge'}]},
+{id:'clothes',name:'Clothing',emoji:'👕',type:'vocab',cards:[
+{kn:'ಬಟ್ಟೆ',tr:'Batte',en:'Cloth / Clothes'},
+{kn:'ಅಂಗಿ',tr:'Angi',en:'Shirt'},
+{kn:'ಪ್ಯಾಂಟ್',tr:'Pyaant',en:'Pants'},
+{kn:'ಸೀರೆ',tr:'Seere',en:'Saree'},
+{kn:'ಲಂಗ',tr:'Langa',en:'Skirt'},
+{kn:'ಚೂಡಿದಾರ',tr:'Choodidaara',en:'Churidar'},
+{kn:'ಧೋತಿ',tr:'Dhoti',en:'Dhoti'},
+{kn:'ಪಂಚೆ',tr:'Panche',en:'Panche / Lungi'},
+{kn:'ಶಾಲು',tr:'Shaalu',en:'Shawl'},
+{kn:'ಟೋಪಿ',tr:'Topi',en:'Cap / Hat'},
+{kn:'ಚಪ್ಪಲಿ',tr:'Chappali',en:'Slippers'},
+{kn:'ಶೂ',tr:'Shoo',en:'Shoes'},
+{kn:'ಕೋಟ್',tr:'Kot',en:'Coat'},
+{kn:'ಸ್ವೆಟರ್',tr:'Svetar',en:'Sweater'}],
+sentences:[{kn:'ಈ ಅಂಗಿ ಸುಂದರವಾಗಿದೆ',tr:'Ee angi sundaravaagide',en:'This shirt is beautiful'}]},
+{id:'daily',name:'Daily Activities',emoji:'🚿',type:'vocab',cards:[
+{kn:'ಎದ್ದೇಳುವುದು',tr:'Eddeluvudu',en:'To wake up'},
+{kn:'ಸ್ನಾನ ಮಾಡುವುದು',tr:'Snaana maaduvudu',en:'To bathe'},
+{kn:'ಹಲ್ಲುಜ್ಜುವುದು',tr:'Hallujjuvudu',en:'To brush teeth'},
+{kn:'ಊಟ ಮಾಡುವುದು',tr:'Oota maaduvudu',en:'To eat (meal)'},
+{kn:'ಮಲಗುವುದು',tr:'Maluguvudu',en:'To sleep'},
+{kn:'ಓದುವುದು',tr:'Ooduvudu',en:'To read'},
+{kn:'ಬರೆಯುವುದು',tr:'Bareyuvudu',en:'To write'},
+{kn:'ನಡೆಯುವುದು',tr:'Nadeyuvudu',en:'To walk'},
+{kn:'ಓಡುವುದು',tr:'Ooduvudu',en:'To run'},
+{kn:'ಆಡುವುದು',tr:'Aaduvudu',en:'To play'},
+{kn:'ಕೆಲಸ ಮಾಡುವುದು',tr:'Kelasa maaduvudu',en:'To work'},
+{kn:'ವಿಶ್ರಾಂತಿ',tr:'Vishraanti',en:'Rest'}],
+sentences:[
+{kn:'ನಾನು ಬೆಳಿಗ್ಗೆ ಆರು ಗಂಟೆಗೆ ಎದ್ದೇಳುತ್ತೇನೆ',tr:'Naanu belagge aaru gantege eddeluttene',en:'I wake up at six in the morning'},
+{kn:'ಮಗು ಚೆನ್ನಾಗಿ ಮಲಗಿದೆ',tr:'Magu chennagi malagide',en:'The child is sleeping well'}]}]},
+
+{id:'places',title:'Section 6 · Places & Travel',color:'pink',sub:'School, office, city & transport',units:[
+{id:'school',name:'School',emoji:'🏫',type:'vocab',cards:[
+{kn:'ಶಾಲೆ',tr:'Shaale',en:'School'},
+{kn:'ಶಿಕ್ಷಕ',tr:'Shikshaka',en:'Teacher (m)'},
+{kn:'ಶಿಕ್ಷಕಿ',tr:'Shikshaki',en:'Teacher (f)'},
+{kn:'ವಿದ್ಯಾರ್ಥಿ',tr:'Vidyaarthi',en:'Student (m)'},
+{kn:'ವಿದ್ಯಾರ್ಥಿನಿ',tr:'Vidyaarthini',en:'Student (f)'},
+{kn:'ಪುಸ್ತಕ',tr:'Pustaka',en:'Book'},
+{kn:'ಪೆನ್ನು',tr:'Pennu',en:'Pen'},
+{kn:'ಪೆನ್ಸಿಲ್',tr:'Pensil',en:'Pencil'},
+{kn:'ಕಾಗದ',tr:'Kaagada',en:'Paper'},
+{kn:'ತರಗತಿ',tr:'Taragati',en:'Classroom'},
+{kn:'ಪರೀಕ್ಷೆ',tr:'Pareekshe',en:'Exam'},
+{kn:'ಗಣಿತ',tr:'Ganita',en:'Math'},
+{kn:'ವಿಜ್ಞಾನ',tr:'Vijnaana',en:'Science'},
+{kn:'ಭಾಷೆ',tr:'Bhaashe',en:'Language'},
+{kn:'ಚಿತ್ರಕಲೆ',tr:'Chitrakale',en:'Drawing'},
+{kn:'ಶಾಲಾ ಬ್ಯಾಗ್',tr:'Shaalaa byaag',en:'School bag'}],
+sentences:[{kn:'ನಾನು ಶಾಲೆಗೆ ಹೋಗುತ್ತೇನೆ',tr:'Naanu shaalege hooguttene',en:'I go to school'}]},
+{id:'office',name:'Office & Work',emoji:'💼',type:'vocab',cards:[
+{kn:'ಕಚೇರಿ',tr:'Kacheri',en:'Office'},
+{kn:'ಕೆಲಸ',tr:'Kelasa',en:'Work / Job'},
+{kn:'ಸಭೆ',tr:'Sabhe',en:'Meeting'},
+{kn:'ಬಾಸ್',tr:'Baas',en:'Boss'},
+{kn:'ಸಹೋದ್ಯೋಗಿ',tr:'Sahodyogi',en:'Colleague'},
+{kn:'ದಾಖಲೆ',tr:'Daakhale',en:'Document'},
+{kn:'ಯೋಜನೆ',tr:'Yojane',en:'Project / Plan'},
+{kn:'ಸಂಬಳ',tr:'Sambala',en:'Salary'},
+{kn:'ಗಡುವು',tr:'Gaduvu',en:'Deadline'},
+{kn:'ಕಂಪ್ಯೂಟರ್',tr:'Kampyootar',en:'Computer'},
+{kn:'ಫೋನ್',tr:'Phon',en:'Phone'},
+{kn:'ಮಿಂಚಂಚೆ',tr:'Minchanche',en:'Email'},
+{kn:'ಅಧಿಕಾರಿ',tr:'Adhikaari',en:'Officer'},
+{kn:'ಸಹಿ',tr:'Sahi',en:'Signature'}],
+sentences:[
+{kn:'ಇಂದು ಕಚೇರಿಯಲ್ಲಿ ಸಭೆ ಇದೆ',tr:'Indu kacheriyalli sabhe ide',en:'There is a meeting at office today'},
+{kn:'ನಾನು ಕೆಲಸಕ್ಕೆ ಹೋಗಬೇಕು',tr:'Naanu kelasakke hogabeku',en:'I have to go to work'}]},
+{id:'transport',name:'Transport',emoji:'🚗',type:'vocab',cards:[
+{kn:'ವಾಹನ',tr:'Vaahana',en:'Vehicle'},
+{kn:'ಕಾರು',tr:'Kaaru',en:'Car'},
+{kn:'ಬಸ್',tr:'Bas',en:'Bus'},
+{kn:'ರೈಲು',tr:'Railu',en:'Train'},
+{kn:'ವಿಮಾನ',tr:'Vimaana',en:'Airplane'},
+{kn:'ಬೈಕ್',tr:'Baik',en:'Motorbike'},
+{kn:'ಸೈಕಲ್',tr:'Saikal',en:'Bicycle'},
+{kn:'ಆಟೋ',tr:'Aato',en:'Auto rickshaw'},
+{kn:'ಹಡಗು',tr:'Hadagu',en:'Ship'},
+{kn:'ಲಾರಿ',tr:'Laari',en:'Truck'},
+{kn:'ರಸ್ತೆ',tr:'Raste',en:'Road'},
+{kn:'ನಿಲ್ದಾಣ',tr:'Nildaana',en:'Station / Stop'},
+{kn:'ಚಾಲಕ',tr:'Chaalaka',en:'Driver'},
+{kn:'ಟಿಕೆಟ್',tr:'Tiket',en:'Ticket'},
+{kn:'ಪ್ರಯಾಣ',tr:'Prayaana',en:'Journey'}],
+sentences:[
+{kn:'ನಾನು ಬಸ್ಸಿನಲ್ಲಿ ಬಂದೆ',tr:'Naanu bassinalli bande',en:'I came by bus'},
+{kn:'ರೈಲು ಎಷ್ಟು ಗಂಟೆಗೆ?',tr:'Railu eshtu gantege?',en:'At what time is the train?'}]},
+{id:'city',name:'City Places',emoji:'🏙️',type:'vocab',cards:[
+{kn:'ನಗರ',tr:'Nagara',en:'City'},
+{kn:'ಗ್ರಾಮ',tr:'Graama',en:'Village'},
+{kn:'ಮಾರುಕಟ್ಟೆ',tr:'Maarukatte',en:'Market'},
+{kn:'ಅಂಗಡಿ',tr:'Angadi',en:'Shop'},
+{kn:'ಬ್ಯಾಂಕ್',tr:'Byaank',en:'Bank'},
+{kn:'ಆಸ್ಪತ್ರೆ',tr:'Aaspatre',en:'Hospital'},
+{kn:'ಪೋಲಿಸ್ ಠಾಣೆ',tr:'Polis thaane',en:'Police station'},
+{kn:'ಅಂಚೆ ಕಚೇರಿ',tr:'Anche kacheri',en:'Post office'},
+{kn:'ದೇವಸ್ಥಾನ',tr:'Devasthaana',en:'Temple'},
+{kn:'ಚರ್ಚು',tr:'Charchu',en:'Church'},
+{kn:'ಮಸೀದಿ',tr:'Maseedi',en:'Mosque'},
+{kn:'ಪಾರ್ಕ್',tr:'Paark',en:'Park'},
+{kn:'ಚಿತ್ರಮಂದಿರ',tr:'Chitramandira',en:'Cinema'},
+{kn:'ಗ್ರಂಥಾಲಯ',tr:'Granthaalaya',en:'Library'},
+{kn:'ಹೋಟೆಲ್',tr:'Hotel',en:'Hotel / Restaurant'},
+{kn:'ಬೀದಿ',tr:'Beedi',en:'Street'}],
+sentences:[{kn:'ಆಸ್ಪತ್ರೆ ಎಲ್ಲಿದೆ?',tr:'Aaspatre ellide?',en:'Where is the hospital?'}]},
+{id:'dirs',name:'Directions',emoji:'🧭',type:'vocab',cards:[
+{kn:'ಎಡ',tr:'Eda',en:'Left'},
+{kn:'ಬಲ',tr:'Bala',en:'Right'},
+{kn:'ಮುಂದೆ',tr:'Munde',en:'Forward / Ahead'},
+{kn:'ಹಿಂದೆ',tr:'Hinde',en:'Behind / Back'},
+{kn:'ಮೇಲೆ',tr:'Mele',en:'Above / Up'},
+{kn:'ಕೆಳಗೆ',tr:'Kelage',en:'Below / Down'},
+{kn:'ಒಳಗೆ',tr:'Olage',en:'Inside'},
+{kn:'ಹೊರಗೆ',tr:'Horage',en:'Outside'},
+{kn:'ಪಕ್ಕದಲ್ಲಿ',tr:'Pakkadalli',en:'Beside / Next to'},
+{kn:'ಹತ್ತಿರ',tr:'Hattira',en:'Near'},
+{kn:'ದೂರ',tr:'Doora',en:'Far'},
+{kn:'ಉತ್ತರ',tr:'Uttara',en:'North'},
+{kn:'ದಕ್ಷಿಣ',tr:'Dakshina',en:'South'},
+{kn:'ಪೂರ್ವ',tr:'Poorva',en:'East'},
+{kn:'ಪಶ್ಚಿಮ',tr:'Pashchima',en:'West'}],
+sentences:[
+{kn:'ಎಡಕ್ಕೆ ತಿರುಗಿ',tr:'Edakke tirugi',en:'Turn left'},
+{kn:'ನೇರವಾಗಿ ಮುಂದೆ ಹೋಗಿ',tr:'Neravaagi munde hoogi',en:'Go straight ahead'}]}]},
+
+{id:'time',title:'Section 7 · Time & Nature',color:'green',sub:'Days, weather, seasons & nature',units:[
+{id:'days',name:'Days of Week',emoji:'📅',type:'vocab',cards:[
+{kn:'ಸೋಮವಾರ',tr:'Somavaara',en:'Monday'},
+{kn:'ಮಂಗಳವಾರ',tr:'Mangalavaara',en:'Tuesday'},
+{kn:'ಬುಧವಾರ',tr:'Budhavaara',en:'Wednesday'},
+{kn:'ಗುರುವಾರ',tr:'Guruvaara',en:'Thursday'},
+{kn:'ಶುಕ್ರವಾರ',tr:'Shukravaara',en:'Friday'},
+{kn:'ಶನಿವಾರ',tr:'Shanivaara',en:'Saturday'},
+{kn:'ಭಾನುವಾರ',tr:'Bhaanuvaara',en:'Sunday'},
+{kn:'ವಾರ',tr:'Vaara',en:'Week'},
+{kn:'ವಾರಾಂತ್ಯ',tr:'Vaaraantya',en:'Weekend'},
+{kn:'ರಜೆ',tr:'Raje',en:'Holiday'}],
+sentences:[{kn:'ಇಂದು ಸೋಮವಾರ',tr:'Indu somavaara',en:'Today is Monday'}]},
+{id:'months',name:'Months',emoji:'📆',type:'vocab',cards:[
+{kn:'ಜನವರಿ',tr:'Janavari',en:'January'},
+{kn:'ಫೆಬ್ರವರಿ',tr:'Phebravari',en:'February'},
+{kn:'ಮಾರ್ಚ್',tr:'Maarch',en:'March'},
+{kn:'ಏಪ್ರಿಲ್',tr:'Epril',en:'April'},
+{kn:'ಮೇ',tr:'Me',en:'May'},
+{kn:'ಜೂನ್',tr:'Joon',en:'June'},
+{kn:'ಜುಲೈ',tr:'Julai',en:'July'},
+{kn:'ಆಗಸ್ಟ್',tr:'Aagast',en:'August'},
+{kn:'ಸೆಪ್ಟೆಂಬರ್',tr:'Septembar',en:'September'},
+{kn:'ಅಕ್ಟೋಬರ್',tr:'Aktobar',en:'October'},
+{kn:'ನವೆಂಬರ್',tr:'Navembar',en:'November'},
+{kn:'ಡಿಸೆಂಬರ್',tr:'Disembar',en:'December'},
+{kn:'ತಿಂಗಳು',tr:'Tingalu',en:'Month'},
+{kn:'ವರ್ಷ',tr:'Varsha',en:'Year'}]},
+{id:'timewds',name:'Time Words',emoji:'⏰',type:'vocab',cards:[
+{kn:'ಗಂಟೆ',tr:'Gante',en:"Hour / O'clock"},
+{kn:'ನಿಮಿಷ',tr:'Nimisha',en:'Minute'},
+{kn:'ಸೆಕೆಂಡ್',tr:'Sekend',en:'Second'},
+{kn:'ದಿನ',tr:'Dina',en:'Day'},
+{kn:'ಇಂದು',tr:'Indu',en:'Today'},
+{kn:'ನಾಳೆ',tr:'Naale',en:'Tomorrow'},
+{kn:'ನಿನ್ನೆ',tr:'Ninne',en:'Yesterday'},
+{kn:'ಈಗ',tr:'Eega',en:'Now'},
+{kn:'ಆಮೇಲೆ',tr:'Aamele',en:'Later'},
+{kn:'ಮೊದಲು',tr:'Modalu',en:'Before / First'},
+{kn:'ಬೆಳಿಗ್ಗೆ',tr:'Belagge',en:'Morning'},
+{kn:'ಮಧ್ಯಾಹ್ನ',tr:'Madhyaahna',en:'Afternoon'},
+{kn:'ಸಂಜೆ',tr:'Sanje',en:'Evening'},
+{kn:'ರಾತ್ರಿ',tr:'Raatri',en:'Night'},
+{kn:'ಯಾವಾಗಲೂ',tr:'Yaavaagaloo',en:'Always'},
+{kn:'ಎಂದಿಗೂ ಇಲ್ಲ',tr:'Endigoo illa',en:'Never'},
+{kn:'ಕೆಲವೊಮ್ಮೆ',tr:'Kelavomme',en:'Sometimes'}],
+sentences:[
+{kn:'ಈಗ ಎಷ್ಟು ಗಂಟೆ?',tr:'Eega eshtu gante?',en:'What time is it now?'},
+{kn:'ಬೆಳಿಗ್ಗೆ ಎಂಟು ಗಂಟೆ',tr:'Belagge entu gante',en:'Eight in the morning'}]},
+{id:'weather',name:'Weather',emoji:'🌦️',type:'vocab',cards:[
+{kn:'ಹವಾಮಾನ',tr:'Havaamaana',en:'Weather'},
+{kn:'ಮಳೆ',tr:'Male',en:'Rain'},
+{kn:'ಬಿಸಿಲು',tr:'Bisilu',en:'Sunshine'},
+{kn:'ಮೋಡ',tr:'Moda',en:'Cloud'},
+{kn:'ಗಾಳಿ',tr:'Gaali',en:'Wind / Air'},
+{kn:'ಚಳಿ',tr:'Chali',en:'Cold'},
+{kn:'ಬಿಸಿ',tr:'Bisi',en:'Hot / Heat'},
+{kn:'ಮಂಜು',tr:'Manju',en:'Fog'},
+{kn:'ಹಿಮ',tr:'Hima',en:'Snow'},
+{kn:'ಗುಡುಗು',tr:'Gudugu',en:'Thunder'},
+{kn:'ಮಿಂಚು',tr:'Minchu',en:'Lightning'},
+{kn:'ಕಾಮನಬಿಲ್ಲು',tr:'Kaamanabillu',en:'Rainbow'}],
+sentences:[
+{kn:'ಇಂದು ಮಳೆ ಬರುತ್ತಿದೆ',tr:'Indu male baruttide',en:'It is raining today'},
+{kn:'ಬಹಳ ಚಳಿ',tr:'Bahala chali',en:'Very cold'}]},
+{id:'seasons',name:'Seasons & Nature',emoji:'🌿',type:'vocab',cards:[
+{kn:'ಋತು',tr:'Rutu',en:'Season'},
+{kn:'ಬೇಸಿಗೆ',tr:'Besige',en:'Summer'},
+{kn:'ಮಳೆಗಾಲ',tr:'Malegaala',en:'Monsoon'},
+{kn:'ಚಳಿಗಾಲ',tr:'Chaligaala',en:'Winter'},
+{kn:'ವಸಂತ',tr:'Vasanta',en:'Spring'},
+{kn:'ಸೂರ್ಯ',tr:'Soorya',en:'Sun'},
+{kn:'ಚಂದ್ರ',tr:'Chandra',en:'Moon'},
+{kn:'ನಕ್ಷತ್ರ',tr:'Nakshatra',en:'Star'},
+{kn:'ಆಕಾಶ',tr:'Aakaasha',en:'Sky'},
+{kn:'ಭೂಮಿ',tr:'Bhoomi',en:'Earth'},
+{kn:'ಸಮುದ್ರ',tr:'Samudra',en:'Sea'},
+{kn:'ನದಿ',tr:'Nadi',en:'River'},
+{kn:'ಬೆಟ್ಟ',tr:'Betta',en:'Hill / Mountain'},
+{kn:'ಕಾಡು',tr:'Kaadu',en:'Forest'},
+{kn:'ಮರ',tr:'Mara',en:'Tree'},
+{kn:'ಎಲೆ',tr:'Ele',en:'Leaf'},
+{kn:'ಹೂವು',tr:'Hoovu',en:'Flower'}],
+sentences:[{kn:'ಸೂರ್ಯ ಪೂರ್ವದಲ್ಲಿ ಉದಯಿಸುತ್ತಾನೆ',tr:'Soorya poorvadalli udayisuttaane',en:'The sun rises in the east'}]}]},
+
+{id:'animals',title:'Section 8 · Animals & Birds',color:'orange',sub:'Domestic, wild animals & birds',units:[
+{id:'pets',name:'Pets & Farm',emoji:'🐕',type:'vocab',cards:[
+{kn:'ಪ್ರಾಣಿ',tr:'Praani',en:'Animal'},
+{kn:'ನಾಯಿ',tr:'Naayi',en:'Dog'},
+{kn:'ಬೆಕ್ಕು',tr:'Bekku',en:'Cat'},
+{kn:'ಹಸು',tr:'Hasu',en:'Cow'},
+{kn:'ಎಮ್ಮೆ',tr:'Emme',en:'Buffalo'},
+{kn:'ಎತ್ತು',tr:'Ettu',en:'Bull / Ox'},
+{kn:'ಆಡು',tr:'Aadu',en:'Goat'},
+{kn:'ಕುರಿ',tr:'Kuri',en:'Sheep'},
+{kn:'ಕುದುರೆ',tr:'Kudure',en:'Horse'},
+{kn:'ಕತ್ತೆ',tr:'Katte',en:'Donkey'},
+{kn:'ಹಂದಿ',tr:'Handi',en:'Pig'},
+{kn:'ಒಂಟೆ',tr:'Onte',en:'Camel'}],
+sentences:[{kn:'ನಾಯಿ ಬೊಗಳುತ್ತಿದೆ',tr:'Naayi bogaluttide',en:'The dog is barking'}]},
+{id:'wild',name:'Wild Animals',emoji:'🦁',type:'vocab',cards:[
+{kn:'ಆನೆ',tr:'Aane',en:'Elephant'},
+{kn:'ಹುಲಿ',tr:'Huli',en:'Tiger'},
+{kn:'ಸಿಂಹ',tr:'Simha',en:'Lion'},
+{kn:'ಚಿರತೆ',tr:'Chirate',en:'Leopard'},
+{kn:'ಮಂಗ',tr:'Manga',en:'Monkey'},
+{kn:'ಕರಡಿ',tr:'Karadi',en:'Bear'},
+{kn:'ತೋಳ',tr:'Tola',en:'Wolf'},
+{kn:'ನರಿ',tr:'Nari',en:'Fox'},
+{kn:'ಜಿಂಕೆ',tr:'Jinke',en:'Deer'},
+{kn:'ಮೊಲ',tr:'Mola',en:'Rabbit'},
+{kn:'ಹಾವು',tr:'Haavu',en:'Snake'},
+{kn:'ಮೊಸಳೆ',tr:'Mosale',en:'Crocodile'},
+{kn:'ಆಮೆ',tr:'Aame',en:'Tortoise'},
+{kn:'ಇಲಿ',tr:'Ili',en:'Mouse / Rat'},
+{kn:'ಅಳಿಲು',tr:'Alilu',en:'Squirrel'}]},
+{id:'birds',name:'Birds & Insects',emoji:'🦅',type:'vocab',cards:[
+{kn:'ಹಕ್ಕಿ',tr:'Hakki',en:'Bird'},
+{kn:'ಕಾಗೆ',tr:'Kaage',en:'Crow'},
+{kn:'ಗುಬ್ಬಿ',tr:'Gubbi',en:'Sparrow'},
+{kn:'ಗಿಳಿ',tr:'Gili',en:'Parrot'},
+{kn:'ನವಿಲು',tr:'Navilu',en:'Peacock'},
+{kn:'ಹಂಸ',tr:'Hamsa',en:'Swan'},
+{kn:'ಕೋಳಿ',tr:'Koli',en:'Chicken'},
+{kn:'ಬಾತುಕೋಳಿ',tr:'Baatukoli',en:'Duck'},
+{kn:'ಗೂಬೆ',tr:'Goobe',en:'Owl'},
+{kn:'ಗಿಡುಗ',tr:'Giduga',en:'Eagle'},
+{kn:'ಚಿಟ್ಟೆ',tr:'Chitte',en:'Butterfly'},
+{kn:'ಜೇನುನೊಣ',tr:'Jenunona',en:'Honey bee'},
+{kn:'ನೊಣ',tr:'Nona',en:'Fly'},
+{kn:'ಸೊಳ್ಳೆ',tr:'Solle',en:'Mosquito'},
+{kn:'ಇರುವೆ',tr:'Iruve',en:'Ant'}]}]},
+
+{id:'commerce',title:'Section 9 · Daily Commerce',color:'blue',sub:'Shopping, restaurant, money, health',units:[
+{id:'shop',name:'Shopping',emoji:'🛍️',type:'vocab',cards:[
+{kn:'ಬೆಲೆ',tr:'Bele',en:'Price'},
+{kn:'ಎಷ್ಟು?',tr:'Eshtu?',en:'How much?'},
+{kn:'ಅಗ್ಗ',tr:'Agga',en:'Cheap'},
+{kn:'ದುಬಾರಿ',tr:'Dubaari',en:'Expensive'},
+{kn:'ಕಡಿಮೆ ಮಾಡಿ',tr:'Kadime maadi',en:'Reduce (price)'},
+{kn:'ಕೊಂಡುಕೊಳ್ಳುವುದು',tr:'Kondukolluvudu',en:'To buy'},
+{kn:'ಮಾರಾಟ',tr:'Maaraata',en:'Sale'},
+{kn:'ಅಂಗಡಿಯವ',tr:'Angadiyava',en:'Shopkeeper'},
+{kn:'ಗ್ರಾಹಕ',tr:'Graahaka',en:'Customer'},
+{kn:'ಚಿಲ್ಲರೆ',tr:'Chillare',en:'Change (money)'},
+{kn:'ಒಟ್ಟು',tr:'Ottu',en:'Total'},
+{kn:'ಬಿಲ್',tr:'Bil',en:'Bill'}],
+sentences:[
+{kn:'ಇದರ ಬೆಲೆ ಎಷ್ಟು?',tr:'Idara bele eshtu?',en:'What is the price of this?'},
+{kn:'ಸ್ವಲ್ಪ ಕಡಿಮೆ ಮಾಡಿ',tr:'Svalpa kadime maadi',en:'Please reduce a little'},
+{kn:'ಇದು ತುಂಬಾ ದುಬಾರಿ',tr:'Idu tumbaa dubaari',en:'This is very expensive'}]},
+{id:'money',name:'Money & Banking',emoji:'💰',type:'vocab',cards:[
+{kn:'ಹಣ',tr:'Hana',en:'Money'},
+{kn:'ರೂಪಾಯಿ',tr:'Roopaayi',en:'Rupee'},
+{kn:'ಪೈಸೆ',tr:'Paise',en:'Paisa'},
+{kn:'ನಾಣ್ಯ',tr:'Naanya',en:'Coin'},
+{kn:'ನೋಟು',tr:'Notu',en:'Note (currency)'},
+{kn:'ಬ್ಯಾಂಕ್',tr:'Byaank',en:'Bank'},
+{kn:'ಖಾತೆ',tr:'Khaate',en:'Account'},
+{kn:'ಸಾಲ',tr:'Saala',en:'Loan'},
+{kn:'ಬಡ್ಡಿ',tr:'Baddi',en:'Interest'},
+{kn:'ಉಳಿತಾಯ',tr:'Ulitaaya',en:'Savings'},
+{kn:'ಎಟಿಎಂ',tr:'Etiem',en:'ATM'},
+{kn:'ಚೆಕ್',tr:'Chek',en:'Cheque'}]},
+{id:'rest',name:'Restaurant',emoji:'🍽️',type:'vocab',cards:[
+{kn:'ಮೆನು',tr:'Menu',en:'Menu'},
+{kn:'ಆರ್ಡರ್',tr:'Aardar',en:'Order'},
+{kn:'ಮಾಣಿ',tr:'Maani',en:'Waiter'},
+{kn:'ಆಹಾರ',tr:'Aahaara',en:'Food'},
+{kn:'ಪಾನೀಯ',tr:'Paaneeya',en:'Beverage'},
+{kn:'ಸಿಹಿತಿಂಡಿ',tr:'Sihitindi',en:'Dessert'},
+{kn:'ರುಚಿ',tr:'Ruchi',en:'Taste'},
+{kn:'ಹಸಿವು',tr:'Hasivu',en:'Hunger'},
+{kn:'ಬಾಯಾರಿಕೆ',tr:'Baayaarike',en:'Thirst'},
+{kn:'ಸಸ್ಯಾಹಾರಿ',tr:'Sasyaahaari',en:'Vegetarian'},
+{kn:'ಮಾಂಸಾಹಾರಿ',tr:'Maamsaahaari',en:'Non-vegetarian'}],
+sentences:[
+{kn:'ನನಗೆ ಹಸಿವಾಗಿದೆ',tr:'Nanage hasivaagide',en:'I am hungry'},
+{kn:'ಮೆನು ಕೊಡಿ',tr:'Menu kodi',en:'Please give the menu'},
+{kn:'ಬಿಲ್ ತನ್ನಿ',tr:'Bil tanni',en:'Please bring the bill'}]},
+{id:'travel',name:'Travel Phrases',emoji:'✈️',type:'vocab',cards:[
+{kn:'ಪ್ರವಾಸ',tr:'Pravaasa',en:'Tour / Trip'},
+{kn:'ಪ್ರವಾಸಿ',tr:'Pravaasi',en:'Tourist'},
+{kn:'ಲಗೇಜು',tr:'Lageju',en:'Luggage'},
+{kn:'ಪಾಸ್ಪೋರ್ಟ್',tr:'Paasport',en:'Passport'},
+{kn:'ವೀಸಾ',tr:'Veesaa',en:'Visa'},
+{kn:'ವಿಮಾನ ನಿಲ್ದಾಣ',tr:'Vimaana nildaana',en:'Airport'},
+{kn:'ಹೋಟೆಲ್',tr:'Hotel',en:'Hotel'},
+{kn:'ಸಹಾಯ ಮಾಡಿ',tr:'Sahaaya maadi',en:'Please help'},
+{kn:'ಎಲ್ಲಿಗೆ?',tr:'Ellige?',en:'Where to?'},
+{kn:'ಎಷ್ಟು ದೂರ?',tr:'Eshtu doora?',en:'How far?'}],
+sentences:[
+{kn:'ಬೆಂಗಳೂರಿಗೆ ಹೋಗಬೇಕು',tr:'Bengaluurige hogabeku',en:'I need to go to Bangalore'},
+{kn:'ಒಂದು ಟಿಕೆಟ್ ಬೇಕು',tr:'Ondu tiket beku',en:'I need one ticket'}]},
+{id:'medical',name:'Health & Medical',emoji:'🏥',type:'vocab',cards:[
+{kn:'ವೈದ್ಯ',tr:'Vaidya',en:'Doctor'},
+{kn:'ದಾದಿ',tr:'Daadi',en:'Nurse'},
+{kn:'ಆಸ್ಪತ್ರೆ',tr:'Aaspatre',en:'Hospital'},
+{kn:'ಔಷಧಿ',tr:'Aushadhi',en:'Medicine'},
+{kn:'ನೋವು',tr:'Novu',en:'Pain'},
+{kn:'ಜ್ವರ',tr:'Jvara',en:'Fever'},
+{kn:'ಕೆಮ್ಮು',tr:'Kemmu',en:'Cough'},
+{kn:'ಶೀತ',tr:'Sheeta',en:'Cold'},
+{kn:'ತಲೆನೋವು',tr:'Talenovu',en:'Headache'},
+{kn:'ಹೊಟ್ಟೆನೋವು',tr:'Hottenovu',en:'Stomach ache'},
+{kn:'ಗಾಯ',tr:'Gaaya',en:'Wound'},
+{kn:'ರಕ್ತ',tr:'Rakta',en:'Blood'},
+{kn:'ಆರೋಗ್ಯ',tr:'Aarogya',en:'Health'},
+{kn:'ತುರ್ತು',tr:'Turtu',en:'Emergency'}],
+sentences:[
+{kn:'ನನಗೆ ಜ್ವರ ಬಂದಿದೆ',tr:'Nanage jvara bandide',en:'I have a fever'},
+{kn:'ವೈದ್ಯರನ್ನು ಕರೆಯಿರಿ',tr:'Vaidyarannu kareyiri',en:'Please call the doctor'}]}]},
+
+{id:'verbs',title:'Section 10 · Verbs & Actions',color:'red',sub:'Common verbs you need every day',units:[
+{id:'cverbs',name:'Common Verbs',emoji:'🏃',type:'vocab',cards:[
+{kn:'ಮಾಡು',tr:'Maadu',en:'Do / Make'},
+{kn:'ಹೋಗು',tr:'Hoogu',en:'Go'},
+{kn:'ಬಾ',tr:'Baa',en:'Come'},
+{kn:'ತಿನ್ನು',tr:'Tinnu',en:'Eat'},
+{kn:'ಕುಡಿ',tr:'Kudi',en:'Drink'},
+{kn:'ಮಲಗು',tr:'Malagu',en:'Sleep'},
+{kn:'ಎದ್ದೇಳು',tr:'Eddelu',en:'Wake up'},
+{kn:'ಕುಳಿತುಕೋ',tr:'Kulituko',en:'Sit'},
+{kn:'ಎದ್ದು ನಿಲ್ಲು',tr:'Eddu nillu',en:'Stand up'},
+{kn:'ಮಾತನಾಡು',tr:'Maatanaadu',en:'Speak'},
+{kn:'ನೋಡು',tr:'Nodu',en:'See / Look'},
+{kn:'ಕೇಳು',tr:'Kelu',en:'Hear / Ask'},
+{kn:'ಬರೆ',tr:'Bare',en:'Write'},
+{kn:'ಓದು',tr:'Oodu',en:'Read'}]},
+{id:'mverbs',name:'More Verbs',emoji:'🔧',type:'vocab',cards:[
+{kn:'ಕೊಡು',tr:'Kodu',en:'Give'},
+{kn:'ತೆಗೆದುಕೋ',tr:'Tegeduko',en:'Take'},
+{kn:'ಕರೆ',tr:'Kare',en:'Call'},
+{kn:'ತಿಳಿ',tr:'Tili',en:'Know / Understand'},
+{kn:'ಮರೆ',tr:'Mare',en:'Forget'},
+{kn:'ನೆನಪಿಸು',tr:'Nenapisu',en:'Remember'},
+{kn:'ಯೋಚಿಸು',tr:'Yochisu',en:'Think'},
+{kn:'ಪ್ರೀತಿಸು',tr:'Preetisu',en:'Love'},
+{kn:'ಇಷ್ಟಪಡು',tr:'Ishtapadu',en:'Like'},
+{kn:'ದ್ವೇಷಿಸು',tr:'Dveshisu',en:'Hate'},
+{kn:'ಕಲಿ',tr:'Kali',en:'Learn'},
+{kn:'ಕಲಿಸು',tr:'Kalisu',en:'Teach'},
+{kn:'ಸಹಾಯಮಾಡು',tr:'Sahaayamaadu',en:'Help'},
+{kn:'ಪ್ರಯತ್ನಿಸು',tr:'Prayatnisu',en:'Try'},
+{kn:'ಜಯಿಸು',tr:'Jayisu',en:'Win'},
+{kn:'ಸೋಲು',tr:'Solu',en:'Lose'}]},
+{id:'havebe',name:'To Be & To Have',emoji:'🔑',type:'grammar',
+info:`Kannada doesn't use a single word for "is" or "have" like English. Instead, forms of <code>iru</code> (to be) and the dative case express these ideas.
+
+<b>To be — present:</b>
+<ul><li><code>iddene</code> – I am</li>
+<li><code>iddiya</code> – you are (informal)</li>
+<li><code>iddeere</code> – you are (formal)</li>
+<li><code>iddaane</code> – he is</li>
+<li><code>iddaale</code> – she is</li>
+<li><code>ide</code> – it is</li></ul>
+
+<b>To have:</b> Kannada says <code>nanage X ide</code> = "to me X is" = "I have X" (uses dative -ge).`,
+cards:[
+{kn:'ಇದ್ದೇನೆ',tr:'Iddene',en:'I am / I exist'},
+{kn:'ಇದ್ದೀಯ',tr:'Iddiya',en:'You are (informal)'},
+{kn:'ಇದ್ದೀರಿ',tr:'Iddeeri',en:'You are (formal)'},
+{kn:'ಇದ್ದಾನೆ',tr:'Iddaane',en:'He is'},
+{kn:'ಇದ್ದಾಳೆ',tr:'Iddaale',en:'She is'},
+{kn:'ಇದೆ',tr:'Ide',en:'It is / There is'},
+{kn:'ಇದ್ದೇವೆ',tr:'Iddeve',en:'We are'},
+{kn:'ಇದ್ದಾರೆ',tr:'Iddaare',en:'They are'},
+{kn:'ನನಗೆ ಇದೆ',tr:'Nanage ide',en:'I have (it)'},
+{kn:'ಅಲ್ಲ',tr:'Alla',en:'Is not (identity)'},
+{kn:'ಇಲ್ಲ',tr:'Illa',en:'Is not / Does not exist'}],
+sentences:[
+{kn:'ನಾನು ಮನೆಯಲ್ಲಿದ್ದೇನೆ',tr:'Naanu maneyalliddene',en:'I am at home'},
+{kn:'ಅವಳು ಶಾಲೆಯಲ್ಲಿದ್ದಾಳೆ',tr:'Avalu shaaleyalliddaale',en:'She is at school'},
+{kn:'ನನಗೆ ನಾಯಿ ಇದೆ',tr:'Nanage naayi ide',en:'I have a dog'},
+{kn:'ಅವನಿಗೆ ಕಾರು ಇಲ್ಲ',tr:'Avanige kaaru illa',en:"He doesn't have a car"}]}]},
+
+{id:'grammar',title:'Section 11 · Grammar Essentials',color:'purple',sub:'Cases, plurals & sentence structure',units:[
+{id:'sov',name:'Sentence Structure (SOV)',emoji:'📐',type:'grammar',
+info:`Kannada follows <b>Subject – Object – Verb (SOV)</b> order, unlike English (SVO).
+
+<b>English:</b> I (S) eat (V) rice (O).
+<b>Kannada:</b> Naanu (S) anna (O) tinnuttene (V).
+ನಾನು ಅನ್ನ ತಿನ್ನುತ್ತೇನೆ.
+
+The verb always comes <b>at the end</b>. Adjectives come before nouns. Postpositions (instead of prepositions) follow nouns: <code>maneyalli</code> = "in the house".`,
+cards:[
+{kn:'ನಾನು ಅನ್ನ ತಿನ್ನುತ್ತೇನೆ',tr:'Naanu anna tinnuttene',en:'I eat rice'},
+{kn:'ಅವನು ಪುಸ್ತಕ ಓದುತ್ತಾನೆ',tr:'Avanu pustaka ooduttaane',en:'He reads a book'},
+{kn:'ನಾವು ನೀರು ಕುಡಿಯುತ್ತೇವೆ',tr:'Naavu neeru kudiyutteve',en:'We drink water'},
+{kn:'ಅವಳು ಹಾಡು ಹಾಡುತ್ತಾಳೆ',tr:'Avalu haadu haaduttaale',en:'She sings a song'}],
+sentences:[
+{kn:'ರಾಮ ಚೆಂಡನ್ನು ಎಸೆಯುತ್ತಾನೆ',tr:'Rama chendannu eseyuttaane',en:'Rama throws the ball'},
+{kn:'ತಂದೆ ಪತ್ರ ಬರೆಯುತ್ತಾರೆ',tr:'Tande patra bareyuttaare',en:'Father writes a letter'}]},
+{id:'cases',name:'The 7 Cases',emoji:'⚙️',type:'grammar',
+info:`Kannada has <b>seven cases (vibhakti)</b>, formed by adding suffixes to nouns.
+
+<ol><li><b>Nominative</b> (subject): no suffix — <code>mara</code></li>
+<li><b>Accusative</b> (object): -annu — <code>marannu</code></li>
+<li><b>Instrumental</b> (with/by): -inda — <code>marainda</code></li>
+<li><b>Dative</b> (to/for): -ige/-ge — <code>marakke</code></li>
+<li><b>Ablative</b> (from): often -dinda</li>
+<li><b>Genitive</b> (of/'s): -a — <code>marada</code></li>
+<li><b>Locative</b> (in/at): -alli — <code>maradalli</code></li></ol>`,
+cards:[
+{kn:'ಮನೆ',tr:'Mane',en:'house (nominative)'},
+{kn:'ಮನೆಯನ್ನು',tr:'Maneyannu',en:'the house (accusative)'},
+{kn:'ಮನೆಯಿಂದ',tr:'Maneyinda',en:'from the house (ablative)'},
+{kn:'ಮನೆಗೆ',tr:'Manege',en:'to the house (dative)'},
+{kn:'ಮನೆಯ',tr:'Maneya',en:'of the house (genitive)'},
+{kn:'ಮನೆಯಲ್ಲಿ',tr:'Maneyalli',en:'in the house (locative)'},
+{kn:'ಶಾಲೆಗೆ',tr:'Shaalege',en:'to school'},
+{kn:'ಊರಿಂದ',tr:'Oorinda',en:'from town'},
+{kn:'ಪುಸ್ತಕದಲ್ಲಿ',tr:'Pustakadalli',en:'in the book'},
+{kn:'ಸ್ನೇಹಿತನಿಗೆ',tr:'Snehitanige',en:'to the friend'}],
+sentences:[
+{kn:'ನಾನು ಶಾಲೆಗೆ ಹೋಗುತ್ತೇನೆ',tr:'Naanu shaalege hooguttene',en:'I go to school (dative)'},
+{kn:'ಅವನು ಮನೆಯಲ್ಲಿದ್ದಾನೆ',tr:'Avanu maneyalliddaane',en:'He is in the house (locative)'},
+{kn:'ಪುಸ್ತಕದಿಂದ ಓದು',tr:'Pustakadinda oodu',en:'Read from the book'}]},
+{id:'plurals',name:'Plurals',emoji:'🔢',type:'grammar',
+info:`Most Kannada nouns form plurals by adding <code>-ಗಳು (-galu)</code> for things, and <code>-ಅರು (-aru)</code> for honored humans.
+
+<ul><li>ಪುಸ್ತಕ (pustaka) → ಪುಸ್ತಕಗಳು (pustakagalu) – books</li>
+<li>ಮಗು (magu) → ಮಕ್ಕಳು (makkalu) – children (irregular)</li>
+<li>ಶಿಕ್ಷಕ (shikshaka) → ಶಿಕ್ಷಕರು (shikshakaru) – teachers</li></ul>
+
+Adjectives don't change for plural.`,
+cards:[
+{kn:'ಪುಸ್ತಕ → ಪುಸ್ತಕಗಳು',tr:'Pustaka → Pustakagalu',en:'Book → Books'},
+{kn:'ಹುಡುಗ → ಹುಡುಗರು',tr:'Huduga → Hudugaru',en:'Boy → Boys'},
+{kn:'ಹುಡುಗಿ → ಹುಡುಗಿಯರು',tr:'Hudugi → Hudugiyaru',en:'Girl → Girls'},
+{kn:'ಮಗು → ಮಕ್ಕಳು',tr:'Magu → Makkalu',en:'Child → Children'},
+{kn:'ಮನೆ → ಮನೆಗಳು',tr:'Mane → Manegalu',en:'House → Houses'},
+{kn:'ಶಿಕ್ಷಕ → ಶಿಕ್ಷಕರು',tr:'Shikshaka → Shikshakaru',en:'Teacher → Teachers'},
+{kn:'ಹಣ್ಣು → ಹಣ್ಣುಗಳು',tr:'Hannu → Hannugalu',en:'Fruit → Fruits'},
+{kn:'ಮರ → ಮರಗಳು',tr:'Mara → Maragalu',en:'Tree → Trees'}]},
+{id:'adj',name:'Adjectives',emoji:'🎯',type:'grammar',
+info:`Adjectives in Kannada come <b>before</b> the noun and do NOT change for gender or number.
+
+<b>Pattern:</b> [adjective] + [noun]
+<ul><li>ದೊಡ್ಡ ಮನೆ (dodda mane) – big house</li>
+<li>ಕೆಂಪು ಹೂವು (kempu hoovu) – red flower</li>
+<li>ಒಳ್ಳೆಯ ಹುಡುಗ (olleya huduga) – good boy</li></ul>`,
+cards:[
+{kn:'ಒಳ್ಳೆಯ',tr:'Olleya',en:'Good'},
+{kn:'ಕೆಟ್ಟ',tr:'Ketta',en:'Bad'},
+{kn:'ದೊಡ್ಡ',tr:'Dodda',en:'Big'},
+{kn:'ಸಣ್ಣ',tr:'Sanna',en:'Small'},
+{kn:'ಹೊಸ',tr:'Hosa',en:'New'},
+{kn:'ಹಳೆಯ',tr:'Haleya',en:'Old (things)'},
+{kn:'ಬಿಸಿ',tr:'Bisi',en:'Hot'},
+{kn:'ತಣ್ಣನೆ',tr:'Tannane',en:'Cold'},
+{kn:'ವೇಗದ',tr:'Vegada',en:'Fast'},
+{kn:'ನಿಧಾನದ',tr:'Nidhaanada',en:'Slow'},
+{kn:'ಸುಂದರ',tr:'Sundara',en:'Beautiful'},
+{kn:'ಸುಲಭ',tr:'Sulabha',en:'Easy'},
+{kn:'ಕಷ್ಟ',tr:'Kashta',en:'Difficult'}],
+sentences:[
+{kn:'ಒಳ್ಳೆಯ ಪುಸ್ತಕ',tr:'Olleya pustaka',en:'A good book'},
+{kn:'ದೊಡ್ಡ ಮನೆ',tr:'Dodda mane',en:'A big house'},
+{kn:'ಬಿಸಿ ಕಾಫಿ',tr:'Bisi kaaphi',en:'Hot coffee'}]},
+{id:'neg',name:'Negation',emoji:'❌',type:'grammar',
+info:`Kannada uses different negative words depending on what's being negated.
+
+<ul><li><code>illa</code> ಇಲ್ಲ – "is not / does not exist" (verbs)</li>
+<li><code>alla</code> ಅಲ್ಲ – "is not (X)" (identity)</li>
+<li><code>beda</code> ಬೇಡ – "don't want / don't" (prohibitive)</li></ul>
+
+Examples:
+<ul><li>Avanu doctor alla – He is not a doctor.</li>
+<li>Naanu hogalilla – I didn't go.</li>
+<li>Maatanaadabeda – Don't speak.</li></ul>`,
+cards:[
+{kn:'ಇಲ್ಲ',tr:'Illa',en:'No / Not (verbal)'},
+{kn:'ಅಲ್ಲ',tr:'Alla',en:'Not (identity)'},
+{kn:'ಬೇಡ',tr:'Beda',en:"Don't want"},
+{kn:'ಮಾಡಬೇಡ',tr:'Maadabeda',en:"Don't do it"},
+{kn:'ಹೋಗಬೇಡ',tr:'Hogabeda',en:"Don't go"},
+{kn:'ಗೊತ್ತಿಲ್ಲ',tr:'Gottilla',en:"I don't know"},
+{kn:'ಬರಲ್ಲ',tr:'Baralla',en:"Won't come"},
+{kn:'ತಿನ್ನಲ್ಲ',tr:'Tinnalla',en:"Won't eat"},
+{kn:'ಸಾಧ್ಯವಿಲ್ಲ',tr:'Saadhyavilla',en:'Not possible'}],
+sentences:[
+{kn:'ಅವನು ವೈದ್ಯ ಅಲ್ಲ',tr:'Avanu vaidya alla',en:'He is not a doctor'},
+{kn:'ನನಗೆ ಬೇಡ',tr:'Nanage beda',en:"I don't want it"},
+{kn:'ನಾನು ಹೋಗಲಿಲ್ಲ',tr:'Naanu hogalilla',en:"I didn't go"}]}]},
+
+{id:'tenses',title:'Section 12 · The 12 Tenses',color:'orange',sub:'All twelve English tenses with Kannada equivalents',units:[
+{id:'t1',name:'1. Simple Present',emoji:'🟢',type:'tense',
+info:`<b>Simple Present</b> – habitual actions and general truths.
+<b>Pattern:</b> verb root + -utt + person-ending.
+
+<table class="tense-table"><tr><th>Person</th><th>Suffix</th><th>"ಮಾಡು" (do)</th></tr>
+<tr><td>Naanu (I)</td><td>-uttene</td><td class="kn">ಮಾಡುತ್ತೇನೆ</td></tr>
+<tr><td>Neenu (you)</td><td>-uttiya</td><td class="kn">ಮಾಡುತ್ತೀಯ</td></tr>
+<tr><td>Avanu (he)</td><td>-uttaane</td><td class="kn">ಮಾಡುತ್ತಾನೆ</td></tr>
+<tr><td>Avalu (she)</td><td>-uttaale</td><td class="kn">ಮಾಡುತ್ತಾಳೆ</td></tr>
+<tr><td>Adu (it)</td><td>-uttade</td><td class="kn">ಮಾಡುತ್ತದೆ</td></tr>
+<tr><td>Naavu (we)</td><td>-utteve</td><td class="kn">ಮಾಡುತ್ತೇವೆ</td></tr>
+<tr><td>Avaru (they)</td><td>-uttaare</td><td class="kn">ಮಾಡುತ್ತಾರೆ</td></tr></table>`,
+cards:[
+{kn:'ತಿನ್ನುತ್ತೇನೆ',tr:'Tinnuttene',en:'I eat'},
+{kn:'ಕುಡಿಯುತ್ತಾನೆ',tr:'Kudiyuttaane',en:'He drinks'},
+{kn:'ಓದುತ್ತಾಳೆ',tr:'Ooduttaale',en:'She reads'},
+{kn:'ಬರೆಯುತ್ತೇವೆ',tr:'Bareyutteve',en:'We write'},
+{kn:'ಆಡುತ್ತಾರೆ',tr:'Aaduttaare',en:'They play'},
+{kn:'ಹೋಗುತ್ತೀಯ',tr:'Hooguttiya',en:'You go'},
+{kn:'ಮಾತನಾಡುತ್ತೇನೆ',tr:'Maatanaaduttene',en:'I speak'}],
+sentences:[
+{kn:'ನಾನು ಪ್ರತಿದಿನ ಶಾಲೆಗೆ ಹೋಗುತ್ತೇನೆ',tr:'Naanu pratidina shaalege hooguttene',en:'I go to school every day'},
+{kn:'ಅವನು ಕನ್ನಡ ಮಾತನಾಡುತ್ತಾನೆ',tr:'Avanu kannada maatanaaduttaane',en:'He speaks Kannada'},
+{kn:'ಸೂರ್ಯ ಪೂರ್ವದಲ್ಲಿ ಉದಯಿಸುತ್ತಾನೆ',tr:'Soorya poorvadalli udayisuttaane',en:'The sun rises in the east'}]},
+{id:'t2',name:'2. Present Continuous',emoji:'🔵',type:'tense',
+info:`<b>Present Continuous</b> – ongoing action right now.
+<b>Pattern:</b> verb-utti + iddene-form.
+
+<table class="tense-table"><tr><th>Person</th><th>"ಮಾಡು" form</th><th>Meaning</th></tr>
+<tr><td>Naanu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದೇನೆ</td><td>I am doing</td></tr>
+<tr><td>Neenu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದೀಯ</td><td>You are doing</td></tr>
+<tr><td>Avanu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದಾನೆ</td><td>He is doing</td></tr>
+<tr><td>Avalu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದಾಳೆ</td><td>She is doing</td></tr>
+<tr><td>Naavu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದೇವೆ</td><td>We are doing</td></tr>
+<tr><td>Avaru</td><td class="kn">ಮಾಡುತ್ತಿದ್ದಾರೆ</td><td>They are doing</td></tr></table>`,
+cards:[
+{kn:'ತಿನ್ನುತ್ತಿದ್ದೇನೆ',tr:'Tinnuttiddene',en:'I am eating'},
+{kn:'ಓದುತ್ತಿದ್ದಾನೆ',tr:'Ooduttiddaane',en:'He is reading'},
+{kn:'ಬರೆಯುತ್ತಿದ್ದಾಳೆ',tr:'Bareyuttiddaale',en:'She is writing'},
+{kn:'ಮಾತನಾಡುತ್ತಿದ್ದೇವೆ',tr:'Maatanaaduttiddeve',en:'We are speaking'},
+{kn:'ಆಡುತ್ತಿದ್ದಾರೆ',tr:'Aaduttiddaare',en:'They are playing'},
+{kn:'ಹಾಡುತ್ತಿದ್ದೀಯ',tr:'Haaduttiddiya',en:'You are singing'},
+{kn:'ಬೀಳುತ್ತಿದೆ',tr:'Beeluttide',en:'It is falling'}],
+sentences:[
+{kn:'ಮಳೆ ಬರುತ್ತಿದೆ',tr:'Male baruttide',en:'It is raining'},
+{kn:'ನಾನು ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದೇನೆ',tr:'Naanu kelasa maaduttiddene',en:'I am working'},
+{kn:'ಮಗು ಮಲಗುತ್ತಿದೆ',tr:'Magu maluguttide',en:'The child is sleeping'}]},
+{id:'t3',name:'3. Present Perfect',emoji:'🟣',type:'tense',
+info:`<b>Present Perfect</b> – action completed with current relevance ("have/has done").
+<b>Pattern:</b> past participle + iddene-form.
+
+<table class="tense-table"><tr><th>Person</th><th>"ಮಾಡು" form</th><th>Meaning</th></tr>
+<tr><td>Naanu</td><td class="kn">ಮಾಡಿದ್ದೇನೆ</td><td>I have done</td></tr>
+<tr><td>Avanu</td><td class="kn">ಮಾಡಿದ್ದಾನೆ</td><td>He has done</td></tr>
+<tr><td>Avalu</td><td class="kn">ಮಾಡಿದ್ದಾಳೆ</td><td>She has done</td></tr>
+<tr><td>Naavu</td><td class="kn">ಮಾಡಿದ್ದೇವೆ</td><td>We have done</td></tr>
+<tr><td>Avaru</td><td class="kn">ಮಾಡಿದ್ದಾರೆ</td><td>They have done</td></tr></table>`,
+cards:[
+{kn:'ತಿಂದಿದ್ದೇನೆ',tr:'Tindiddene',en:'I have eaten'},
+{kn:'ಹೋಗಿದ್ದಾನೆ',tr:'Hogiddaane',en:'He has gone'},
+{kn:'ಬಂದಿದ್ದಾಳೆ',tr:'Bandiddaale',en:'She has come'},
+{kn:'ಓದಿದ್ದೇವೆ',tr:'Oodiddeve',en:'We have read'},
+{kn:'ಬರೆದಿದ್ದಾರೆ',tr:'Barediddaare',en:'They have written'},
+{kn:'ನೋಡಿದ್ದೇನೆ',tr:'Nodiddene',en:'I have seen'},
+{kn:'ಮಾಡಿದ್ದಾನೆ',tr:'Maadiddaane',en:'He has done'}],
+sentences:[
+{kn:'ನಾನು ಊಟ ಮಾಡಿದ್ದೇನೆ',tr:'Naanu oota maadiddene',en:'I have eaten'},
+{kn:'ಅವನು ಮನೆಗೆ ಬಂದಿದ್ದಾನೆ',tr:'Avanu manege bandiddaane',en:'He has come home'}]},
+{id:'t4',name:'4. Present Perfect Continuous',emoji:'🟤',type:'tense',
+info:`<b>Present Perfect Continuous</b> – action started in the past and continuing now.
+<b>Pattern:</b> [time]-inda + verb-uttiddene = "Since [time], I am doing".
+
+Examples:
+<ul><li>eradu gantege-inda ooduttiddene → "I've been reading for two hours"</li>
+<li>belaggeyinda kelasa maaduttiddaane → "He's been working since morning"</li></ul>`,
+cards:[
+{kn:'ಎರಡು ಗಂಟೆಯಿಂದ ಓದುತ್ತಿದ್ದೇನೆ',tr:'Eradu ganteyinda ooduttiddene',en:'Have been reading for 2 hours'},
+{kn:'ಬೆಳಗ್ಗೆಯಿಂದ ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದಾನೆ',tr:'Belaggeyinda kelasa maaduttiddaane',en:'Has been working since morning'},
+{kn:'ಒಂದು ಗಂಟೆಯಿಂದ ಕಾಯುತ್ತಿದ್ದೇನೆ',tr:'Ondu ganteyinda kaayuttiddene',en:'Have been waiting for an hour'},
+{kn:'ಎಷ್ಟು ಹೊತ್ತಿನಿಂದ?',tr:'Eshtu hottininda?',en:'Since how long?'},
+{kn:'ನಿನ್ನೆಯಿಂದ',tr:'Ninneyinda',en:'Since yesterday'},
+{kn:'ತಿಂಗಳಿಂದ',tr:'Tingalinda',en:'Since a month'}],
+sentences:[
+{kn:'ನಾನು ಮೂರು ತಿಂಗಳಿಂದ ಕನ್ನಡ ಕಲಿಯುತ್ತಿದ್ದೇನೆ',tr:'Naanu mooru tingalinda kannada kaliyuttiddene',en:"I've been learning Kannada for 3 months"},
+{kn:'ಅವಳು ಬೆಳಗ್ಗೆಯಿಂದ ಅಡುಗೆ ಮಾಡುತ್ತಿದ್ದಾಳೆ',tr:'Avalu belaggeyinda aduge maaduttiddaale',en:"She's been cooking since morning"}]},
+{id:'t5',name:'5. Simple Past',emoji:'🟡',type:'tense',
+info:`<b>Simple Past</b> – completed action in the past.
+<b>Pattern:</b> verb root + -id + person-ending.
+
+<table class="tense-table"><tr><th>Person</th><th>"ಮಾಡು" form</th><th>Meaning</th></tr>
+<tr><td>Naanu</td><td class="kn">ಮಾಡಿದೆ</td><td>I did</td></tr>
+<tr><td>Neenu</td><td class="kn">ಮಾಡಿದೆ</td><td>You did</td></tr>
+<tr><td>Avanu</td><td class="kn">ಮಾಡಿದನು</td><td>He did</td></tr>
+<tr><td>Avalu</td><td class="kn">ಮಾಡಿದಳು</td><td>She did</td></tr>
+<tr><td>Adu</td><td class="kn">ಮಾಡಿತು</td><td>It did</td></tr>
+<tr><td>Naavu</td><td class="kn">ಮಾಡಿದೆವು</td><td>We did</td></tr>
+<tr><td>Avaru</td><td class="kn">ಮಾಡಿದರು</td><td>They did</td></tr></table>`,
+cards:[
+{kn:'ತಿಂದೆ',tr:'Tinde',en:'I ate'},
+{kn:'ಹೋದನು',tr:'Hodanu',en:'He went'},
+{kn:'ಬಂದಳು',tr:'Bandalu',en:'She came'},
+{kn:'ಓದಿದೆವು',tr:'Oodidevu',en:'We read (past)'},
+{kn:'ಬರೆದರು',tr:'Baredaru',en:'They wrote'},
+{kn:'ನೋಡಿದೆ',tr:'Node',en:'I saw'},
+{kn:'ಆಡಿತು',tr:'Aaditu',en:'It played'}],
+sentences:[
+{kn:'ನಾನು ನಿನ್ನೆ ಊಟ ಮಾಡಿದೆ',tr:'Naanu ninne oota maade',en:'I ate (a meal) yesterday'},
+{kn:'ಅವನು ಶಾಲೆಗೆ ಹೋದನು',tr:'Avanu shaalege hodanu',en:'He went to school'}]},
+{id:'t6',name:'6. Past Continuous',emoji:'🟠',type:'tense',
+info:`<b>Past Continuous</b> – ongoing action in the past.
+<b>Pattern:</b> verb-utti + idde-form.
+
+<table class="tense-table"><tr><th>Person</th><th>"ಮಾಡು" form</th><th>Meaning</th></tr>
+<tr><td>Naanu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದೆ</td><td>I was doing</td></tr>
+<tr><td>Avanu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದನು</td><td>He was doing</td></tr>
+<tr><td>Avalu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದಳು</td><td>She was doing</td></tr>
+<tr><td>Naavu</td><td class="kn">ಮಾಡುತ್ತಿದ್ದೆವು</td><td>We were doing</td></tr>
+<tr><td>Avaru</td><td class="kn">ಮಾಡುತ್ತಿದ್ದರು</td><td>They were doing</td></tr></table>`,
+cards:[
+{kn:'ತಿನ್ನುತ್ತಿದ್ದೆ',tr:'Tinnuttidde',en:'I was eating'},
+{kn:'ಓದುತ್ತಿದ್ದನು',tr:'Ooduttiddanu',en:'He was reading'},
+{kn:'ಬರೆಯುತ್ತಿದ್ದಳು',tr:'Bareyuttiddalu',en:'She was writing'},
+{kn:'ಆಡುತ್ತಿದ್ದರು',tr:'Aaduttiddaru',en:'They were playing'},
+{kn:'ಮಲಗುತ್ತಿತ್ತು',tr:'Maluguttittu',en:'It was sleeping'},
+{kn:'ನಡೆಯುತ್ತಿದ್ದೆವು',tr:'Nadeyuttiddevu',en:'We were walking'}],
+sentences:[
+{kn:'ನಾನು ಆಗ ಊಟ ಮಾಡುತ್ತಿದ್ದೆ',tr:'Naanu aaga oota maaduttidde',en:'I was eating at that time'},
+{kn:'ಅವರು ಆಡುತ್ತಿದ್ದರು',tr:'Avaru aaduttiddaru',en:'They were playing'}]},
+{id:'t7',name:'7. Past Perfect',emoji:'🔴',type:'tense',
+info:`<b>Past Perfect</b> – action completed before another past action ("had done").
+<b>Pattern:</b> past participle + idde-form.
+
+<table class="tense-table"><tr><th>Person</th><th>"ಮಾಡು" form</th><th>Meaning</th></tr>
+<tr><td>Naanu</td><td class="kn">ಮಾಡಿದ್ದೆ</td><td>I had done</td></tr>
+<tr><td>Avanu</td><td class="kn">ಮಾಡಿದ್ದನು</td><td>He had done</td></tr>
+<tr><td>Avalu</td><td class="kn">ಮಾಡಿದ್ದಳು</td><td>She had done</td></tr>
+<tr><td>Naavu</td><td class="kn">ಮಾಡಿದ್ದೆವು</td><td>We had done</td></tr>
+<tr><td>Avaru</td><td class="kn">ಮಾಡಿದ್ದರು</td><td>They had done</td></tr></table>`,
+cards:[
+{kn:'ತಿಂದಿದ್ದೆ',tr:'Tindidde',en:'I had eaten'},
+{kn:'ಹೋಗಿದ್ದನು',tr:'Hogiddanu',en:'He had gone'},
+{kn:'ಬಂದಿದ್ದಳು',tr:'Bandiddalu',en:'She had come'},
+{kn:'ನೋಡಿದ್ದೆವು',tr:'Nodiddevu',en:'We had seen'},
+{kn:'ಮಾಡಿದ್ದರು',tr:'Maadiddaru',en:'They had done'}],
+sentences:[
+{kn:'ಅವನು ಬರುವ ಮುಂಚೆ ನಾನು ಊಟ ಮಾಡಿದ್ದೆ',tr:'Avanu baruva munche naanu oota maadidde',en:'I had eaten before he came'},
+{kn:'ನಾವು ಆಗಲೇ ಚಿತ್ರ ನೋಡಿದ್ದೆವು',tr:'Naavu aagale chitra nodiddevu',en:'We had already seen the movie'}]},
+{id:'t8',name:'8. Past Perfect Continuous',emoji:'⚫',type:'tense',
+info:`<b>Past Perfect Continuous</b> – ongoing action before another past action ("had been doing").
+<b>Pattern:</b> [time]-inda + verb-uttidde-form.
+
+Example: "I had been waiting for 2 hours when he came."
+ಅವನು ಬರುವ ಮುಂಚೆ ನಾನು ಎರಡು ಗಂಟೆಯಿಂದ ಕಾಯುತ್ತಿದ್ದೆ.
+<i>avanu baruva munche naanu eradu ganteyinda kaayuttidde</i>`,
+cards:[
+{kn:'ಎರಡು ಗಂಟೆಯಿಂದ ಕಾಯುತ್ತಿದ್ದೆ',tr:'Eradu ganteyinda kaayuttidde',en:'Had been waiting 2 hours'},
+{kn:'ಬೆಳಗ್ಗೆಯಿಂದ ಓದುತ್ತಿದ್ದನು',tr:'Belaggeyinda ooduttiddanu',en:'Had been reading since morning'},
+{kn:'ತಿಂಗಳಿಂದ ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದರು',tr:'Tingalinda kelasa maaduttiddaru',en:'Had been working for a month'},
+{kn:'ಬಹಳ ಹೊತ್ತಿನಿಂದ',tr:'Bahala hottininda',en:'For a long time'}],
+sentences:[
+{kn:'ಅವಳು ಒಂದು ಗಂಟೆಯಿಂದ ಅಳುತ್ತಿದ್ದಳು',tr:'Avalu ondu ganteyinda aluttiddalu',en:'She had been crying for an hour'},
+{kn:'ನಾವು ವಾರದಿಂದ ಸಿದ್ಧತೆ ನಡೆಸುತ್ತಿದ್ದೆವು',tr:'Naavu vaaradinda siddhate nadesuttiddevu',en:'We had been preparing for a week'}]},
+{id:'t9',name:'9. Simple Future',emoji:'🟦',type:'tense',
+info:`<b>Simple Future</b> – action that will happen.
+<b>Pattern:</b> verb root + -uv + person-ending.
+
+<table class="tense-table"><tr><th>Person</th><th>"ಮಾಡು" form</th><th>Meaning</th></tr>
+<tr><td>Naanu</td><td class="kn">ಮಾಡುವೆನು</td><td>I will do</td></tr>
+<tr><td>Neenu</td><td class="kn">ಮಾಡುವೆ</td><td>You will do</td></tr>
+<tr><td>Avanu</td><td class="kn">ಮಾಡುವನು</td><td>He will do</td></tr>
+<tr><td>Avalu</td><td class="kn">ಮಾಡುವಳು</td><td>She will do</td></tr>
+<tr><td>Naavu</td><td class="kn">ಮಾಡುವೆವು</td><td>We will do</td></tr>
+<tr><td>Avaru</td><td class="kn">ಮಾಡುವರು</td><td>They will do</td></tr></table>
+
+Spoken Kannada often uses the present form for future too.`,
+cards:[
+{kn:'ತಿನ್ನುವೆನು',tr:'Tinnuvenu',en:'I will eat'},
+{kn:'ಹೋಗುವನು',tr:'Hoguvanu',en:'He will go'},
+{kn:'ಬರುವಳು',tr:'Baruvalu',en:'She will come'},
+{kn:'ಓದುವೆವು',tr:'Ooduvevu',en:'We will read'},
+{kn:'ಬರೆಯುವರು',tr:'Bareyuvaru',en:'They will write'},
+{kn:'ಮಾಡುವೆನು',tr:'Maaduvenu',en:'I will do'},
+{kn:'ಹೋಗುತ್ತೇನೆ',tr:'Hooguttene',en:'I will go (spoken)'}],
+sentences:[
+{kn:'ನಾನು ನಾಳೆ ಬರುತ್ತೇನೆ',tr:'Naanu naale baruttene',en:'I will come tomorrow'},
+{kn:'ಅವನು ಶಾಲೆಗೆ ಹೋಗುವನು',tr:'Avanu shaalege hoguvanu',en:'He will go to school'}]},
+{id:'t10',name:'10. Future Continuous',emoji:'🟪',type:'tense',
+info:`<b>Future Continuous</b> – ongoing action at a future time ("will be doing").
+<b>Pattern:</b> verb-uttiru + future-ending.
+
+<ul><li>maaduttiruttene – I will be doing</li>
+<li>maaduttiruttaane – he will be doing</li>
+<li>maaduttiruttaale – she will be doing</li>
+<li>maaduttirutteve – we will be doing</li>
+<li>maaduttiruttaare – they will be doing</li></ul>`,
+cards:[
+{kn:'ತಿನ್ನುತ್ತಿರುತ್ತೇನೆ',tr:'Tinnuttiruttene',en:'I will be eating'},
+{kn:'ಓದುತ್ತಿರುತ್ತಾನೆ',tr:'Ooduttiruttaane',en:'He will be reading'},
+{kn:'ಬರೆಯುತ್ತಿರುತ್ತಾಳೆ',tr:'Bareyuttiruttaale',en:'She will be writing'},
+{kn:'ಆಡುತ್ತಿರುತ್ತಾರೆ',tr:'Aaduttiruttaare',en:'They will be playing'},
+{kn:'ಕಾಯುತ್ತಿರುತ್ತೇನೆ',tr:'Kaayuttiruttene',en:'I will be waiting'}],
+sentences:[
+{kn:'ನಾಳೆ ಈ ಸಮಯಕ್ಕೆ ನಾನು ಪ್ರಯಾಣಿಸುತ್ತಿರುತ್ತೇನೆ',tr:'Naale ee samayakke naanu prayaanisuttiruttene',en:'Tomorrow at this time I will be traveling'},
+{kn:'ಅವನು ನಾಳೆ ಕೆಲಸ ಮಾಡುತ್ತಿರುತ್ತಾನೆ',tr:'Avanu naale kelasa maaduttiruttaane',en:'He will be working tomorrow'}]},
+{id:'t11',name:'11. Future Perfect',emoji:'🟫',type:'tense',
+info:`<b>Future Perfect</b> – action completed before a future point ("will have done").
+<b>Pattern:</b> past participle + iruttene-form.
+
+<ul><li>maadiruttene – I will have done</li>
+<li>maadiruttaane – he will have done</li>
+<li>maadiruttaale – she will have done</li>
+<li>maadirutteve – we will have done</li>
+<li>maadiruttaare – they will have done</li></ul>`,
+cards:[
+{kn:'ತಿಂದಿರುತ್ತೇನೆ',tr:'Tindiruttene',en:'I will have eaten'},
+{kn:'ಹೋಗಿರುತ್ತಾನೆ',tr:'Hogiruttaane',en:'He will have gone'},
+{kn:'ಬಂದಿರುತ್ತಾಳೆ',tr:'Bandiruttaale',en:'She will have come'},
+{kn:'ಓದಿರುತ್ತೇವೆ',tr:'Oodirutteve',en:'We will have read'},
+{kn:'ಮಾಡಿರುತ್ತಾರೆ',tr:'Maadiruttaare',en:'They will have done'}],
+sentences:[
+{kn:'ನೀವು ಬರುವ ಹೊತ್ತಿಗೆ ನಾನು ಊಟ ಮಾಡಿರುತ್ತೇನೆ',tr:'Neevu baruva hottige naanu oota maadiruttene',en:'I will have eaten by the time you come'},
+{kn:'ಅವನು ಆಗಲೇ ಹೋಗಿರುತ್ತಾನೆ',tr:'Avanu aagale hogiruttaane',en:'He will have already gone'}]},
+{id:'t12',name:'12. Future Perfect Continuous',emoji:'⬛',type:'tense',
+info:`<b>Future Perfect Continuous</b> – ongoing action up to a future point ("will have been doing").
+<b>Pattern:</b> [time]-inda + verb-uttiruttene-form.
+
+Less commonly used in everyday Kannada; periphrases are often preferred.
+
+Example: "By next year I will have been studying Kannada for 3 years."
+ಮುಂದಿನ ವರ್ಷಕ್ಕೆ ನಾನು ಮೂರು ವರ್ಷಗಳಿಂದ ಕನ್ನಡ ಕಲಿಯುತ್ತಿರುತ್ತೇನೆ.`,
+cards:[
+{kn:'ಮೂರು ವರ್ಷಗಳಿಂದ ಕಲಿಯುತ್ತಿರುತ್ತೇನೆ',tr:'Mooru varshagalinda kaliyuttiruttene',en:'Will have been learning 3 years'},
+{kn:'ತಿಂಗಳಿಂದ ಕೆಲಸ ಮಾಡುತ್ತಿರುತ್ತಾನೆ',tr:'Tingalinda kelasa maaduttiruttaane',en:'Will have been working a month'},
+{kn:'ಗಂಟೆಯಿಂದ ಕಾಯುತ್ತಿರುತ್ತೇನೆ',tr:'Ganteyinda kaayuttiruttene',en:'Will have been waiting an hour'},
+{kn:'ವಾರದಿಂದ ಸಿದ್ಧತೆ ನಡೆಸುತ್ತಿರುತ್ತೇವೆ',tr:'Vaaradinda siddhate nadesuttirutteve',en:'Will have been preparing a week'}],
+sentences:[
+{kn:'ಮುಂದಿನ ವಾರ ಎರಡು ತಿಂಗಳಿಂದ ಕನ್ನಡ ಕಲಿಯುತ್ತಿರುತ್ತೇನೆ',tr:'Mundina vaara eradu tingalinda kannada kaliyuttiruttene',en:'Next week, I will have been learning Kannada for 2 months'}]}]},
+
+{id:'advanced',title:'Section 13 · Advanced & Phrases',color:'pink',sub:'Idioms, proverbs & everyday phrases',units:[
+{id:'phrases',name:'Useful Phrases',emoji:'💬',type:'vocab',cards:[
+{kn:'ನನಗೆ ಅರ್ಥವಾಗಲಿಲ್ಲ',tr:'Nanage arthavaagalilla',en:"I didn't understand"},
+{kn:'ಮತ್ತೆ ಹೇಳಿ',tr:'Matte heli',en:'Please say again'},
+{kn:'ನಿಧಾನವಾಗಿ ಮಾತನಾಡಿ',tr:'Nidhaanavaagi maatanaadi',en:'Please speak slowly'},
+{kn:'ಸಹಾಯ ಮಾಡಬಹುದೇ?',tr:'Sahaaya maadabahude?',en:'Can you help?'},
+{kn:'ಸ್ವಲ್ಪ ಕಾಯಿರಿ',tr:'Svalpa kaayiri',en:'Please wait a little'},
+{kn:'ಬಹಳ ಚೆನ್ನಾಗಿದೆ',tr:'Bahala chennagide',en:'Very good / Excellent'},
+{kn:'ಪರವಾಗಿಲ್ಲ',tr:'Paravaagilla',en:"It's okay"},
+{kn:'ನನಗೆ ತಿಳಿಯದು',tr:'Nanage tiliyadu',en:"I don't understand"},
+{kn:'ಅದು ನಿಜ',tr:'Adu nija',en:"That's true"},
+{kn:'ಸುಳ್ಳು',tr:'Sullu',en:'False / Lie'},
+{kn:'ಖಂಡಿತ',tr:'Khandita',en:'Definitely / Certainly'},
+{kn:'ಸಮಯ ಇಲ್ಲ',tr:'Samaya illa',en:'No time'},
+{kn:'ತಡವಾಗಿದೆ',tr:'Tadavaagide',en:'It is late'},
+{kn:'ಬೇಗ ಬನ್ನಿ',tr:'Bega banni',en:'Come quickly'}]},
+{id:'idioms',name:'Idioms & Proverbs',emoji:'🦉',type:'vocab',cards:[
+{kn:'ಹಸಿವು ಎಲ್ಲರಿಗೂ ಸಮಾನ',tr:'Hasivu ellarigoo samaana',en:'Hunger is equal for all'},
+{kn:'ಸಮಯವೇ ಹಣ',tr:'Samayave hana',en:'Time is money'},
+{kn:'ಆಸೆಯೇ ದುಃಖಕ್ಕೆ ಮೂಲ',tr:'Aaseye duhkhakke moola',en:'Desire is the root of sorrow'},
+{kn:'ಶ್ರಮಕ್ಕೆ ತಕ್ಕ ಫಲ',tr:'Shramakke takka phala',en:'Fruit according to effort'},
+{kn:'ಸತ್ಯಮೇವ ಜಯತೇ',tr:'Satyameva jayate',en:'Truth alone triumphs'},
+{kn:'ಕೂಡಿ ಬಾಳಿದರೆ ಸ್ವರ್ಗ ಸುಖ',tr:'Koodi baalidare svarga sukha',en:'Living together is heavenly bliss'},
+{kn:'ಬೆಕ್ಕು ಕಣ್ಣು ಮುಚ್ಚಿ ಹಾಲು ಕುಡಿದಂತೆ',tr:'Bekku kannu muchchi haalu kudidante',en:'Like a cat drinking milk with eyes closed (ignoring obvious)'},
+{kn:'ಆನೆಗೂ ಎಡವಟ್ಟು',tr:'Aanegoo edavattu',en:'Even an elephant can stumble'}]},
+{id:'profs',name:'Professions',emoji:'👨‍🎓',type:'vocab',cards:[
+{kn:'ವೃತ್ತಿ',tr:'Vrtti',en:'Profession'},
+{kn:'ವೈದ್ಯ',tr:'Vaidya',en:'Doctor'},
+{kn:'ಶಿಕ್ಷಕ',tr:'Shikshaka',en:'Teacher'},
+{kn:'ಎಂಜಿನಿಯರ್',tr:'Enjiniyar',en:'Engineer'},
+{kn:'ವಕೀಲ',tr:'Vakeela',en:'Lawyer'},
+{kn:'ಪೊಲೀಸ್',tr:'Polees',en:'Police'},
+{kn:'ರೈತ',tr:'Raita',en:'Farmer'},
+{kn:'ವ್ಯಾಪಾರಿ',tr:'Vyaapaari',en:'Businessman'},
+{kn:'ಬಡಗಿ',tr:'Badagi',en:'Carpenter'},
+{kn:'ಕಮ್ಮಾರ',tr:'Kammaara',en:'Blacksmith'},
+{kn:'ಚಾಲಕ',tr:'Chaalaka',en:'Driver'},
+{kn:'ಬಾಣಸಿಗ',tr:'Baanasiga',en:'Cook / Chef'},
+{kn:'ಸೈನಿಕ',tr:'Sainika',en:'Soldier'},
+{kn:'ಬರಹಗಾರ',tr:'Barahagaara',en:'Writer'},
+{kn:'ನಟ',tr:'Nata',en:'Actor'},
+{kn:'ಗಾಯಕ',tr:'Gaayaka',en:'Singer'}]},
+{id:'sports',name:'Sports & Hobbies',emoji:'⚽',type:'vocab',cards:[
+{kn:'ಆಟ',tr:'Aata',en:'Game / Sport'},
+{kn:'ಕ್ರಿಕೆಟ್',tr:'Kriket',en:'Cricket'},
+{kn:'ಫುಟ್ಬಾಲ್',tr:'Phutbaal',en:'Football'},
+{kn:'ಹಾಕಿ',tr:'Haaki',en:'Hockey'},
+{kn:'ಟೆನ್ನಿಸ್',tr:'Tennis',en:'Tennis'},
+{kn:'ಚೆಸ್',tr:'Ches',en:'Chess'},
+{kn:'ಈಜು',tr:'Eeju',en:'Swimming'},
+{kn:'ಯೋಗ',tr:'Yoga',en:'Yoga'},
+{kn:'ನೃತ್ಯ',tr:'Nrtya',en:'Dance'},
+{kn:'ಸಂಗೀತ',tr:'Sangeeta',en:'Music'},
+{kn:'ಚಿತ್ರಕಲೆ',tr:'Chitrakale',en:'Painting'},
+{kn:'ಚೆಂಡು',tr:'Chendu',en:'Ball'},
+{kn:'ಆಟಗಾರ',tr:'Aatagaara',en:'Player'}]}]}
+];
+
+/* ========== STATE & APP LOGIC ========== */
+const state = {
+  view: 'home',     // home | unit | flashcard | quiz | complete
+  sectionId: null,
+  unitId: null,
+  unitTab: 'overview', // overview | flashcard | quiz
+  cardIndex: 0,
+  quizIndex: 0,
+  quizQuestions: [],
+  quizCorrect: 0,
+  quizAnswered: false,
+  matchState: null,
+  buildState: null,
+  xp: 0,
+  streak: 0,
+  gems: 500,
+  completedUnits: new Set(),
+  feedback: null,
+  selected: null
+};
+
+const $app = document.getElementById('app');
+
+function shuffle(a){ const r=[...a]; for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];} return r; }
+function pick(arr,n){ return shuffle(arr).slice(0,n); }
+function findUnit(sid,uid){
+  const s = CURRICULUM.find(s=>s.id===sid);
+  return s ? s.units.find(u=>u.id===uid) : null;
+}
+function allCards(){ return CURRICULUM.flatMap(s=>s.units.flatMap(u=>u.cards||[])); }
+function unitKey(sid,uid){ return sid+':'+uid; }
+
+/* ========== RENDERERS ========== */
+function renderTopbar(){
+  return `<div class="topbar">
+    <div class="logo" onclick="goHome()"><span class="owl">🦉</span> Kannada Quest</div>
+    <div class="stats">
+      <div class="stat streak"><span class="icon">🔥</span>${state.streak}</div>
+      <div class="stat xp"><span class="icon">⭐</span>${state.xp}</div>
+      <div class="stat gems"><span class="icon">💎</span>${state.gems}</div>
+    </div>
+  </div>`;
+}
+
+function renderHome(){
+  let html = renderTopbar();
+  html += `<div class="welcome">
+    <h1>Kannada Quest 🦉</h1>
+    <p>Learn Kannada from greetings to grammar — Duolingo-style.</p>
+    <div class="small">All sections unlocked · No heart limits · Earn XP & gems</div>
+  </div>`;
+  for (const sec of CURRICULUM){
+    const completed = sec.units.filter(u=>state.completedUnits.has(unitKey(sec.id,u.id))).length;
+    html += `<div class="section-header ${sec.color}">
+      <div>
+        <div class="section-name">${sec.title}</div>
+        <div class="section-sub">${sec.sub}</div>
+      </div>
+      <div style="font-weight:900;font-size:15px;text-align:right;white-space:nowrap;">${completed}/${sec.units.length} ✓</div>
+    </div>`;
+    html += `<div class="units-grid">`;
+    for (const u of sec.units){
+      const isDone = state.completedUnits.has(unitKey(sec.id,u.id));
+      html += `<div class="unit-card ${isDone?'completed':''}" onclick="openUnit('${sec.id}','${u.id}')">
+        ${isDone?'<div class="badge">★</div>':''}
+        <div class="emoji">${u.emoji}</div>
+        <div class="name">${u.name}</div>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+  $app.innerHTML = html;
+}
+
+function renderUnit(){
+  const u = findUnit(state.sectionId, state.unitId);
+  if (!u) { goHome(); return; }
+  let html = renderTopbar();
+  html += `<div class="screen">
+    <div class="lesson-top">
+      <button class="back-btn" onclick="goHome()">←</button>
+      <div>
+        <div class="lesson-title">${u.emoji} ${u.name}</div>
+        <div class="lesson-sub">${u.cards.length} cards · ${(u.sentences||[]).length} example sentences</div>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab ${state.unitTab==='overview'?'active':''}" onclick="setTab('overview')">Overview</div>
+      <div class="tab ${state.unitTab==='flashcard'?'active':''}" onclick="startFlash()">Flashcards</div>
+      <div class="tab ${state.unitTab==='quiz'?'active':''}" onclick="startQuiz()">Quiz</div>
+    </div>`;
+  if (u.info){
+    html += `<div class="lesson-info"><h3>📘 Learn the concept</h3>${u.info}</div>`;
+  } else {
+    html += `<div class="lesson-info"><h3>📘 ${u.name}</h3>Tap the flashcards to learn the vocabulary, then take the quiz to test what you've learned. Each correct answer earns you XP!</div>`;
+  }
+  html += `<h3 style="margin:18px 0 10px;color:var(--text);">Words in this lesson</h3>`;
+  for (const c of u.cards.slice(0,8)){
+    html += `<div class="example-sentence"><span class="kn">${c.kn}</span><span class="tr">${c.tr}</span><div class="en">${c.en}</div></div>`;
+  }
+  if (u.cards.length > 8) html += `<p style="text-align:center;color:var(--text-light);font-weight:700;">…and ${u.cards.length-8} more — see them all in Flashcards</p>`;
+  if ((u.sentences||[]).length){
+    html += `<h3 style="margin:18px 0 10px;color:var(--text);">Example sentences</h3>`;
+    for (const s of u.sentences){
+      html += `<div class="example-sentence"><span class="kn">${s.kn}</span><span class="tr">${s.tr}</span><div class="en">${s.en}</div></div>`;
+    }
+  }
+  html += `<div class="btn-row" style="margin-top:20px;">
+    <button class="btn" onclick="startFlash()">📇 Start Flashcards</button>
+    <button class="btn blue" onclick="startQuiz()">🎯 Take Quiz</button>
+  </div></div>`;
+  $app.innerHTML = html;
+}
+
+function renderFlash(){
+  const u = findUnit(state.sectionId, state.unitId);
+  if (!u || !u.cards.length) { goHome(); return; }
+  const i = state.cardIndex;
+  const card = u.cards[i];
+  const pct = ((i+1)/u.cards.length)*100;
+  let html = renderTopbar();
+  html += `<div class="screen">
+    <div class="lesson-top">
+      <button class="back-btn" onclick="openUnit('${state.sectionId}','${state.unitId}')">←</button>
+      <div><div class="lesson-title">${u.emoji} ${u.name}</div><div class="lesson-sub">Flashcards · tap card to flip</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="fc-counter">Card ${i+1} of ${u.cards.length}</div>
+    <div class="flashcard" onclick="flipCard()" id="flashcard">
+      <div class="label">Kannada</div>
+      <div class="fc-kannada">${card.kn}</div>
+      <div class="fc-trans">${card.tr}</div>
+      <div id="fc-en-wrap" style="display:none;"><div class="label" style="color:var(--green-dark)">English</div><div class="fc-english">${card.en}</div></div>
+      <div class="fc-hint" id="fc-hint">👆 Tap card to reveal meaning</div>
+    </div>
+    <div class="fc-nav">
+      <button class="btn outline" onclick="prevCard()" ${i===0?'disabled':''}>← Prev</button>
+      ${i===u.cards.length-1
+        ? `<button class="btn" onclick="finishFlash()">Finish ✓</button>`
+        : `<button class="btn blue" onclick="nextCard()">Next →</button>`}
+    </div>
+  </div>`;
+  $app.innerHTML = html;
+}
+
+function flipCard(){
+  const wrap = document.getElementById('fc-en-wrap');
+  const hint = document.getElementById('fc-hint');
+  if (wrap.style.display==='none'){ wrap.style.display=''; hint.textContent='👆 Tap again to hide'; }
+  else { wrap.style.display='none'; hint.textContent='👆 Tap card to reveal meaning'; }
+}
+function nextCard(){ state.cardIndex++; renderFlash(); }
+function prevCard(){ state.cardIndex--; renderFlash(); }
+function finishFlash(){ state.xp += 5; state.unitTab='overview'; renderUnit(); }
+
+/* ========== QUIZ ========== */
+function buildQuestions(u){
+  const cards = u.cards;
+  const pool = allCards();
+  const qs = [];
+  const used = new Set();
+  const num = Math.min(10, cards.length * 2);
+  const types = ['mc_en','mc_kn','match','build','type'];
+  // Generate a varied mix
+  for (let i = 0; i < num; i++){
+    const card = cards[i % cards.length];
+    let type;
+    // First 2 are simple mc_en, then mix it up
+    if (i < 2) type = 'mc_en';
+    else if (i === 2 && cards.length >= 4) type = 'match';
+    else if (i === num-1 && u.sentences && u.sentences.length) type = 'build';
+    else type = types[Math.floor(Math.random() * 3)]; // mc_en, mc_kn, match mainly
+    
+    if (type === 'match' && cards.length < 4) type = 'mc_en';
+    if (type === 'build' && (!u.sentences || !u.sentences.length)) type = 'mc_kn';
+
+    if (type === 'mc_en'){
+      // Kannada → English
+      const distractors = pick(cards.filter(c=>c.en!==card.en), 3);
+      if (distractors.length < 3){
+        const extras = pick(pool.filter(c=>c.en!==card.en && !distractors.find(d=>d.en===c.en)), 3-distractors.length);
+        distractors.push(...extras);
+      }
+      const opts = shuffle([card, ...distractors]);
+      qs.push({type, card, options: opts, correctIdx: opts.findIndex(o=>o.en===card.en)});
+    } else if (type === 'mc_kn'){
+      // English → Kannada
+      const distractors = pick(cards.filter(c=>c.kn!==card.kn), 3);
+      if (distractors.length < 3){
+        const extras = pick(pool.filter(c=>c.kn!==card.kn && !distractors.find(d=>d.kn===c.kn)), 3-distractors.length);
+        distractors.push(...extras);
+      }
+      const opts = shuffle([card, ...distractors]);
+      qs.push({type, card, options: opts, correctIdx: opts.findIndex(o=>o.kn===card.kn)});
+    } else if (type === 'match'){
+      const matchCards = pick(cards, Math.min(4, cards.length));
+      qs.push({type, pairs: matchCards, left: shuffle(matchCards.map(c=>c.kn)), right: shuffle(matchCards.map(c=>c.en))});
+    } else if (type === 'build'){
+      const sent = pick(u.sentences, 1)[0];
+      const words = sent.kn.split(/\s+/);
+      const extras = shuffle(['ಮತ್ತು','ಆದರೆ','ಬಹಳ','ತುಂಬಾ']).slice(0, Math.max(0, 4-words.length));
+      qs.push({type, sentence: sent, words: shuffle([...words, ...extras])});
+    } else if (type === 'type'){
+      qs.push({type:'mc_en', card, options: shuffle([card, ...pick(pool.filter(c=>c.en!==card.en),3)]), correctIdx: 0});
+      qs[qs.length-1].correctIdx = qs[qs.length-1].options.findIndex(o=>o.en===card.en);
+    }
+  }
+  return qs;
+}
+
+function startFlash(){
+  state.view = 'flashcard';
+  state.cardIndex = 0;
+  state.unitTab = 'flashcard';
+  renderFlash();
+}
+function startQuiz(){
+  const u = findUnit(state.sectionId, state.unitId);
+  if (!u) return;
+  state.view = 'quiz';
+  state.unitTab = 'quiz';
+  state.quizIndex = 0;
+  state.quizCorrect = 0;
+  state.quizAnswered = false;
+  state.feedback = null;
+  state.selected = null;
+  state.matchState = null;
+  state.buildState = null;
+  state.quizQuestions = buildQuestions(u);
+  renderQuiz();
+}
+
+function renderQuiz(){
+  const u = findUnit(state.sectionId, state.unitId);
+  if (!u) { goHome(); return; }
+  if (state.quizIndex >= state.quizQuestions.length){ renderComplete(); return; }
+  const q = state.quizQuestions[state.quizIndex];
+  const pct = (state.quizIndex / state.quizQuestions.length) * 100;
+  let html = renderTopbar();
+  html += `<div class="screen">
+    <div class="lesson-top">
+      <button class="back-btn" onclick="openUnit('${state.sectionId}','${state.unitId}')">✕</button>
+      <div style="flex:1"><div class="progress-bar" style="margin:0"><div class="progress-fill" style="width:${pct}%"></div></div></div>
+      <div style="font-weight:900;color:var(--green-dark);">${state.quizIndex+1}/${state.quizQuestions.length}</div>
+    </div>`;
+
+  if (q.type === 'mc_en'){
+    html += `<div class="quiz-prompt"><span class="small">Translate to English</span></div>
+      <div class="quiz-text">${q.card.kn}<div style="font-size:16px;font-style:italic;color:var(--text-light);margin-top:8px;font-family:'Nunito',sans-serif;font-weight:600;">${q.card.tr}</div></div>
+      <div class="options">`;
+    q.options.forEach((o,idx)=>{
+      let cls = 'option';
+      if (state.quizAnswered){
+        if (idx === q.correctIdx) cls += ' correct';
+        else if (idx === state.selected) cls += ' wrong';
+      } else if (idx === state.selected) cls += ' selected';
+      html += `<button class="${cls}" onclick="selectOption(${idx})" ${state.quizAnswered?'disabled':''}>${o.en}</button>`;
+    });
+    html += `</div>`;
+  } else if (q.type === 'mc_kn'){
+    html += `<div class="quiz-prompt"><span class="small">Choose the Kannada</span></div>
+      <div class="quiz-text quiz-text-small" style="background:var(--blue-light);border-color:var(--blue);font-family:'Nunito',sans-serif;">${q.card.en}</div>
+      <div class="options">`;
+    q.options.forEach((o,idx)=>{
+      let cls = 'option';
+      if (state.quizAnswered){
+        if (idx === q.correctIdx) cls += ' correct';
+        else if (idx === state.selected) cls += ' wrong';
+      } else if (idx === state.selected) cls += ' selected';
+      html += `<button class="${cls}" onclick="selectOption(${idx})" ${state.quizAnswered?'disabled':''}><div style="font-family:'Noto Sans Kannada',sans-serif;font-size:20px;">${o.kn}</div><div style="font-size:12px;color:var(--text-light);font-style:italic;margin-top:2px;">${o.tr}</div></button>`;
+    });
+    html += `</div>`;
+  } else if (q.type === 'match'){
+    if (!state.matchState) state.matchState = {leftPicked:null, rightPicked:null, matched:new Set(), wrong:null};
+    const ms = state.matchState;
+    html += `<div class="quiz-prompt"><span class="small">Match the pairs</span>Tap a Kannada word, then its English meaning</div>
+      <div class="match-grid">
+      <div class="match-col">`;
+    q.left.forEach((kn,idx)=>{
+      let cls = 'match-item';
+      if (ms.matched.has('L'+idx)) cls += ' matched';
+      if (ms.leftPicked === idx) cls += ' selected';
+      if (ms.wrong && ms.wrong[0]==='L' && ms.wrong[1]===idx) cls += ' wrong';
+      cls += ' kn-font';
+      html += `<button class="${cls}" onclick="matchPick('L',${idx})">${kn}</button>`;
+    });
+    html += `</div><div class="match-col">`;
+    q.right.forEach((en,idx)=>{
+      let cls = 'match-item';
+      if (ms.matched.has('R'+idx)) cls += ' matched';
+      if (ms.rightPicked === idx) cls += ' selected';
+      if (ms.wrong && ms.wrong[0]==='R' && ms.wrong[1]===idx) cls += ' wrong';
+      html += `<button class="${cls}" onclick="matchPick('R',${idx})">${en}</button>`;
+    });
+    html += `</div></div>`;
+  } else if (q.type === 'build'){
+    if (!state.buildState) state.buildState = {used:new Set(), built:[]};
+    const bs = state.buildState;
+    html += `<div class="quiz-prompt"><span class="small">Build the sentence</span>${q.sentence.en}</div>
+      <div class="word-target">`;
+    bs.built.forEach((wi,i)=>{ html += `<button class="word" onclick="buildRemove(${i})">${q.words[wi]}</button>`; });
+    html += `</div><div class="word-bank">`;
+    q.words.forEach((w,i)=>{
+      const used = bs.used.has(i) ? 'used' : '';
+      html += `<button class="word ${used}" onclick="buildAdd(${i})">${w}</button>`;
+    });
+    html += `</div><button class="btn blue" onclick="checkBuild()" ${state.quizAnswered?'disabled':''}>Check Answer</button>`;
+  }
+
+  html += `</div>`;
+  if (state.feedback){
+    const fb = state.feedback;
+    html += `<div class="feedback ${fb.correct?'correct':'wrong'}">
+      <div class="feedback-content">
+        <div class="feedback-title">${fb.correct?'✓ Excellent!':'✗ Not quite'}</div>
+        <div class="feedback-detail">${fb.detail||''}</div>
+      </div>
+      <button class="btn ${fb.correct?'':'red'}" onclick="nextQuestion()">Continue →</button>
+    </div>`;
+  }
+  $app.innerHTML = html;
+}
+
+function selectOption(idx){
+  if (state.quizAnswered) return;
+  state.selected = idx;
+  const q = state.quizQuestions[state.quizIndex];
+  const correct = idx === q.correctIdx;
+  state.quizAnswered = true;
+  if (correct){ state.quizCorrect++; state.xp += 10; state.gems += 1; }
+  const answer = q.type === 'mc_en' ? q.card.en : q.card.kn + ' (' + q.card.tr + ')';
+  state.feedback = {correct, detail: correct ? `+10 XP · ${q.card.kn} = ${q.card.en}` : `Correct answer: ${answer}`};
+  renderQuiz();
+}
+
+function matchPick(side, idx){
+  const q = state.quizQuestions[state.quizIndex];
+  const ms = state.matchState;
+  if (ms.matched.has(side+idx)) return;
+  if (side === 'L') ms.leftPicked = idx;
+  else ms.rightPicked = idx;
+  renderQuiz();
+  if (ms.leftPicked !== null && ms.rightPicked !== null){
+    const knText = q.left[ms.leftPicked];
+    const enText = q.right[ms.rightPicked];
+    const pair = q.pairs.find(p=>p.kn===knText);
+    if (pair && pair.en === enText){
+      ms.matched.add('L'+ms.leftPicked); ms.matched.add('R'+ms.rightPicked);
+      ms.leftPicked = null; ms.rightPicked = null;
+      state.xp += 3;
+      if (ms.matched.size === q.pairs.length*2){
+        state.quizCorrect++; state.xp += 5; state.gems += 1;
+        state.quizAnswered = true;
+        state.feedback = {correct:true, detail:'All pairs matched! +20 XP total'};
+      }
+      renderQuiz();
+    } else {
+      ms.wrong = [side, idx];
+      renderQuiz();
+      setTimeout(()=>{ ms.wrong = null; ms.leftPicked = null; ms.rightPicked = null; renderQuiz(); }, 600);
+    }
+  }
+}
+
+function buildAdd(i){
+  if (state.quizAnswered) return;
+  const bs = state.buildState;
+  if (bs.used.has(i)) return;
+  bs.used.add(i); bs.built.push(i);
+  renderQuiz();
+}
+function buildRemove(pos){
+  if (state.quizAnswered) return;
+  const bs = state.buildState;
+  const wi = bs.built[pos];
+  bs.built.splice(pos,1); bs.used.delete(wi);
+  renderQuiz();
+}
+function checkBuild(){
+  const q = state.quizQuestions[state.quizIndex];
+  const bs = state.buildState;
+  const built = bs.built.map(i=>q.words[i]).join(' ').trim();
+  const target = q.sentence.kn.trim();
+  // Compare ignoring extra spaces
+  const correct = built.replace(/\s+/g,' ') === target.replace(/\s+/g,' ');
+  state.quizAnswered = true;
+  if (correct){ state.quizCorrect++; state.xp += 15; state.gems += 2; }
+  state.feedback = {correct, detail: correct ? `+15 XP · Perfect sentence!` : `Correct: ${q.sentence.kn} — ${q.sentence.en}`};
+  renderQuiz();
+}
+
+function nextQuestion(){
+  state.quizIndex++;
+  state.quizAnswered = false;
+  state.feedback = null;
+  state.selected = null;
+  state.matchState = null;
+  state.buildState = null;
+  if (state.quizIndex >= state.quizQuestions.length) renderComplete();
+  else renderQuiz();
+}
+
+function renderComplete(){
+  const u = findUnit(state.sectionId, state.unitId);
+  const total = state.quizQuestions.length;
+  const score = state.quizCorrect;
+  const pct = Math.round((score/total)*100);
+  const passed = pct >= 60;
+  if (passed) state.completedUnits.add(unitKey(state.sectionId, state.unitId));
+  if (passed) state.streak++;
+  const xpEarned = score * 10;
+  let html = renderTopbar();
+  html += `<div class="screen complete">
+    <div class="complete-emoji">${passed?'🎉':'💪'}</div>
+    <div class="complete-title">${passed?'Lesson Complete!':'Keep practicing!'}</div>
+    <p style="color:var(--text);font-size:16px;margin-bottom:6px;">${u.emoji} ${u.name}</p>
+    <p style="color:var(--text-light);font-size:14px;">${passed?'Amazing work — you nailed it!':'Try again to master this lesson.'}</p>
+    <div class="complete-stats">
+      <div class="cstat"><div class="cstat-icon">🎯</div><div class="cstat-num">${score}/${total}</div><div class="cstat-label">Correct</div></div>
+      <div class="cstat"><div class="cstat-icon">⭐</div><div class="cstat-num">+${xpEarned}</div><div class="cstat-label">XP earned</div></div>
+      <div class="cstat"><div class="cstat-icon">📊</div><div class="cstat-num">${pct}%</div><div class="cstat-label">Score</div></div>
+    </div>
+    <div class="btn-row" style="margin-top:20px;justify-content:center;">
+      <button class="btn outline" onclick="startQuiz()">↻ Retry</button>
+      <button class="btn" onclick="goHome()">🏠 Home</button>
+    </div>
+  </div>`;
+  $app.innerHTML = html;
+  window.scrollTo(0,0);
+}
+
+/* ========== NAVIGATION ========== */
+function goHome(){
+  state.view = 'home';
+  state.sectionId = null;
+  state.unitId = null;
+  state.unitTab = 'overview';
+  renderHome();
+  window.scrollTo(0,0);
+}
+function openUnit(sid, uid){
+  state.view = 'unit';
+  state.sectionId = sid;
+  state.unitId = uid;
+  state.unitTab = 'overview';
+  state.cardIndex = 0;
+  renderUnit();
+  window.scrollTo(0,0);
+}
+function setTab(name){
+  state.unitTab = name;
+  if (name === 'overview') renderUnit();
+  else if (name === 'flashcard') startFlash();
+  else if (name === 'quiz') startQuiz();
+}
+
+/* ========== BOOT ========== */
+renderHome();
+</script>
+</body>
+</html>
